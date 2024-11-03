@@ -4,6 +4,7 @@ import EmptySection, { EmptyProps } from '@/scripts/Pages/EmptySection';
 import ErrorModal from '@/scripts/Components/ErrorModal';
 import Header from '@/scripts/Components/Header/Header';
 import Loading from '@/scripts/Components/Feedback/Loading';
+import Modal from '@/scripts/Components/Modal';
 import { PropsBase } from '@/scripts/Common/System';
 import { router } from '@inertiajs/react';
 import Snackbar from '@/scripts/Components/Feedback/Snackbar';
@@ -82,11 +83,17 @@ const PageBase = ({
         snackbar={snackbarContext.snackbar}
         handleClose={snackbarContext.handleClose}
       />
-      <ErrorModal
-        isOpen={errorContext.error.code !== ''}
-        error={errorContext.error}
+      <Modal
+        sx={{ width: '320px', textAlign: 'center' }}
+        isOpen={errorContext.error.title !== ''}
         handleClose={errorContext.handleInit}
-      />
+      >
+        <ErrorModal
+          title={errorContext.error.title}
+          message={errorContext.error.message}
+          onClose={errorContext.handleInit}
+        />
+      </Modal>
     </Loading>
   );
 };

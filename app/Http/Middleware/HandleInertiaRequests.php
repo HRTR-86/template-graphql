@@ -38,8 +38,8 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         return [
-            'auth_user'       => $this->getAuthUser(),
-            'permission_list' => $this->getPermissionList(),
+            'auth_user'       => fn () => $this->getAuthUser(),
+            'permission_list' => fn () => $this->getPermissionList(),
             'errors'          => Inertia::always($this->getErrorMessageList($request)),
             'flash'           => fn () => $request->session()->get('flash'),
         ];

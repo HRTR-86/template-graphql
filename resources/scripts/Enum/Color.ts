@@ -3,7 +3,7 @@ export const Color = {
   ACCENT: '#5689EC',
   BASE: '#FFFFFF',
   OVERLAY: '#F5F5F5',
-  OBJECT: '#01081b',
+  OBJECT: '#31343e',
   OBJECT_SUB: '#818181',
   BORDER: '#EAEAEA',
   BORDER_STRONG: '#A4A4A4',

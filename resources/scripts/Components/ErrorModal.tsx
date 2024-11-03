@@ -1,42 +1,48 @@
-import { Box, Typography, useTheme } from '@mui/material';
-import Modal from '@/scripts/Components/Modal';
+import { Button, Typography } from '@mui/material';
+import ErrorIcon from '@mui/icons-material/Error';
 import { PropsBase } from '@/scripts/Common/System';
-import { TError } from '@/scripts/Parser/Common/parseErrorProps';
-import WarningIcon from '@mui/icons-material/Warning';
 
 interface Props extends PropsBase {
-  isOpen: boolean;
-  error: TError;
-  handleClose: () => void;
+  title: string;
+  message: string;
+  onClose: () => void;
 }
 
-const ErrorModal = ({ sx, isOpen = false, error, handleClose }: Props) => {
-  const theme = useTheme();
-
+const ErrorModal = ({ title, message, onClose }: Props) => {
   return (
-    <Modal
-      sx={sx}
-      isOpen={isOpen}
-      handleClose={handleClose}
-    >
-      <Box
-        sx={{
-          display: 'flex',
-          color: theme.palette.error.main,
-          margin: '0 0 16px 0',
-        }}
+    <>
+      <ErrorIcon
+        color={'error'}
+        sx={{ fontSize: '3rem' }}
+      />
+      <Typography sx={{ mt: 1, fontSize: '1rem', fontWeight: 'bold' }}>
+        {title}
+      </Typography>
+      <Typography
+        noWrap
+        sx={{ mt: 1, fontSize: '0.75rem' }}
+        align={'left'}
       >
-        <WarningIcon />
+        頻発する場合は開発者にお問い合わせください
+      </Typography>
+      {message && (
         <Typography
-          sx={{ color: theme.palette.error.main }}
-          variant={'caption'}
+          noWrap
+          sx={{ fontSize: '0.75rem' }}
+          align={'left'}
         >
-          {error.title}
+          {message}
         </Typography>
-      </Box>
-      <Typography sx={{ margin: '0 0 4px 0' }}>{error.message}</Typography>
-      <Typography>{`エラーコード：${error.code}`}</Typography>
-    </Modal>
+      )}
+      <Button
+        color={'error'}
+        variant="contained"
+        onClick={onClose}
+        sx={{ mt: 3, width: '100%' }}
+      >
+        閉じる
+      </Button>
+    </>
   );
 };
 

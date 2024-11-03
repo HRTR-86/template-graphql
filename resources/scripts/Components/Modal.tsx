@@ -4,16 +4,23 @@ import { PropsBase } from '@/scripts/Common/System';
 
 interface Props extends PropsBase {
   isOpen: boolean;
+  keepMounted?: boolean;
   handleClose: () => void;
 }
 
-const Modal = ({ sx, isOpen = false, handleClose, children }: Props) => {
+const Modal = ({
+  sx,
+  isOpen = false,
+  keepMounted = false,
+  handleClose,
+  children,
+}: Props) => {
   const theme = useTheme();
 
   return (
     <MuiModal
       open={isOpen}
-      keepMounted={false}
+      keepMounted={keepMounted}
       onClose={handleClose}
     >
       <Box

@@ -9,6 +9,7 @@ use App\Service\Profile\ProfileEditService;
 use App\Usecases\Profile\ProfileEditInput;
 use Auth;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -64,7 +65,7 @@ class ProfileController extends Controller
      * @return Response|RedirectResponse
      * @throws Throwable
      */
-    public function edit(ProfileEditRequest $request): Response|RedirectResponse
+    public function edit(ProfileEditRequest $request): Response|RedirectResponse|JsonResponse
     {
         try {
             if (! Auth::check()) {
@@ -81,9 +82,8 @@ class ProfileController extends Controller
                 ->with('flash', $output->getFlash());
 
         } catch (Exception  $e) {
-            return Inertia::render(
-                'Error/ErrorIndex',
-                $this->getError(ErrorCode::PR1101, $e),
+            return back()->withErrors(
+                $this->getError(ErrorCode::PR1101, $e)
             );
         }
     }
