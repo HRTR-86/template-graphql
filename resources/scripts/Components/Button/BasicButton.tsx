@@ -1,12 +1,12 @@
 import { Button, lighten, useTheme } from '@mui/material';
 import { ButtonType, TButtonType } from '@/scripts/Enum/ButtonType';
 import { PropsBase } from '@/scripts/Common/System';
-import { useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 
 interface Props extends PropsBase {
   type?: TButtonType;
   startIcon?: any;
-  label: string;
+  label: string | ReactNode;
   disabled?: boolean;
   href?: string;
   onClick?: () => void;
@@ -58,7 +58,7 @@ const BasicButton = ({
   /**
    * ボタンクリック時に処理を実行する
    */
-  const handleOnClick = (): void => {
+  const handleClick = (): void => {
     if (href !== undefined) {
       const currentHref = window.location.href;
       const url = new URL(currentHref);
@@ -75,6 +75,7 @@ const BasicButton = ({
         height: '36px',
         boxSizing: 'border-box',
         backgroundColor: backgroundColor,
+        gap: '4px',
         textTransform: 'none',
         '&.Mui-disabled': {
           backgroundColor: lighten(backgroundColor, 0.3),
@@ -89,7 +90,7 @@ const BasicButton = ({
       startIcon={startIcon}
       href={href}
       disabled={disabled}
-      onClick={handleOnClick}
+      onClick={handleClick}
     >
       {label}
     </Button>

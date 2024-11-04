@@ -1,10 +1,11 @@
 import BasicButton from '@/scripts/Components/Button/BasicButton';
+import { Box, Stack, Typography, useTheme } from '@mui/material';
 import { ButtonType } from '@/scripts/Enum/ButtonType';
 import { Errors } from '@inertiajs/core/types/types';
+import GoogleIcon from '@/scripts/Asset/Image/googleIcon.svg';
 import InputField from '@/scripts/Components/Form/InputField';
 import { parseErrorProps } from '@/scripts/Parser/Common/parseErrorProps';
 import { PropsBase } from '@/scripts/Common/System';
-import { Stack, Typography, useTheme } from '@mui/material';
 import { useErrorContext } from '@/scripts/Provider/ErrorProvider';
 import usePostLogin from '@/scripts/Hooks/Login/usePostLogin';
 import { useState } from 'react';
@@ -67,7 +68,16 @@ const LoginModal = (_: Props) => {
       </Typography>
       <BasicButton
         type={ButtonType.OUTLINE}
-        label={'Googleログイン'}
+        label={
+          <>
+            <Box
+              component={'img'}
+              src={GoogleIcon}
+              alt={'logo'}
+            />
+            Googleログイン
+          </>
+        }
         href={'/login/google'}
       />
       <Stack
