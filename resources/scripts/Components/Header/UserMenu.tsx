@@ -11,7 +11,7 @@ import {
 import { Errors } from '@inertiajs/core/types/types';
 import Loading from '../Feedback/Loading';
 import { Logout } from '@mui/icons-material';
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, useMemo, useState } from 'react';
 import { parseErrorProps } from '@/scripts/Parser/Common/parseErrorProps';
 import { useAuthUserContext } from '../../Provider/AuthUserProvider';
 import { useErrorContext } from '@/scripts/Provider/ErrorProvider';
@@ -71,6 +71,28 @@ const UserMenu = () => {
     postLogout(handleError);
   };
 
+  const icon = useMemo(() => {
+    if (!authUserContext.authUser.imageUrl) {
+      return (
+        <Box
+          sx={{
+            height: '36px',
+            width: '36px',
+            borderRadius: '50%',
+            backgroundColor: theme.palette['border-strong'].main,
+          }}
+        />
+      );
+    }
+
+    return (
+      <StyledImg
+        alt={'profile'}
+        src={authUserContext.authUser.imageUrl}
+      />
+    );
+  }, [authUserContext.authUser.imageUrl]);
+
   return (
     <Box
       sx={{
@@ -91,10 +113,7 @@ const UserMenu = () => {
       >
         <Loading isLoading={false}>
           <Typography>{authUserContext.authUser.name}</Typography>
-          <StyledImg
-            alt={'profile'}
-            src={authUserContext.authUser.imageUrl}
-          />
+          {icon}
         </Loading>
       </Box>
       <Menu
@@ -119,10 +138,7 @@ const UserMenu = () => {
             gap: '8px',
           }}
         >
-          <StyledImg
-            alt={'profile'}
-            src={authUserContext.authUser.imageUrl}
-          />
+          {icon}
           <Box
             style={{
               padding: '0',

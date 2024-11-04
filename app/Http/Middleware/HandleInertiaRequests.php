@@ -89,6 +89,10 @@ class HandleInertiaRequests extends Middleware
         $loginUser       = $loginUser->with(['trnUserRole.mstRole'])->first();
         $trnUserRoleList = $loginUser->trnUserRole;
 
+        if (is_null($trnUserRoleList)) {
+            return [];
+        }
+
         $currentRole = $loginUser->trnUserRole->firstWhere('is_current', 1);
         if (is_null($currentRole)) {
             $trnUserRole             = $trnUserRoleList->sortBy('id')->first();

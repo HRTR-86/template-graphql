@@ -2,17 +2,29 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import { Link, router } from '@inertiajs/react';
 import PageBase from '@/scripts/Pages/PageBase';
 import { useState } from 'react';
+import usePostLogin from '@/scripts/Hooks/Login/usePostLogin';
 
 const LoginPage = (props: any) => {
   const [form, setForm] = useState({
-    email: 'sample@919.jp',
+    email: 'hoshi-ryotaro@919.jp',
     password: 'password',
   });
+
+  const { postLogin } = usePostLogin();
 
   const handleChangeText = (newValue: any): void => {
     setForm({
       ...form,
       ...newValue,
+    });
+  };
+
+  const handleLogin = (): void => {
+    postLogin({
+      data: form,
+      only: [],
+      handleSuccess: () => {},
+      handleError: () => {},
     });
   };
 
@@ -58,7 +70,7 @@ const LoginPage = (props: any) => {
           }}
           color="success"
           variant="contained"
-          href="/login"
+          onClick={handleLogin}
         >
           送信
         </Button>
