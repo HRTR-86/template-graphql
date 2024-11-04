@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import Display from '@/scripts/Components/Display/Display';
 import EmptySection, { EmptyProps } from '@/scripts/Pages/EmptySection';
-import ErrorModal from '@/scripts/Components/ErrorModal';
+import ErrorModal from '@/scripts/Modals/ErrorModal';
 import Header from '@/scripts/Components/Header/Header';
 import Loading from '@/scripts/Components/Feedback/Loading';
 import Modal from '@/scripts/Components/Modal';
@@ -86,7 +86,7 @@ const PageBase = ({
       <Modal
         sx={{ width: '320px', textAlign: 'center' }}
         isOpen={errorContext.error.title !== ''}
-        handleClose={errorContext.handleInit}
+        onClose={errorContext.handleInit}
       >
         <ErrorModal
           title={errorContext.error.title}

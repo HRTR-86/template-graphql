@@ -78,7 +78,7 @@ const SampleCommonForm = memo(
       <>
         <Modal
           isOpen={isOpenModal}
-          handleClose={handleCloseModal}
+          onClose={handleCloseModal}
         >
           <SampleChildCreateModal
             isOpen={isOpenModal}

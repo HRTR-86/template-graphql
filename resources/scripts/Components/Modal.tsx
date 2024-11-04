@@ -5,14 +5,14 @@ import { PropsBase } from '@/scripts/Common/System';
 interface Props extends PropsBase {
   isOpen: boolean;
   keepMounted?: boolean;
-  handleClose: () => void;
+  onClose: () => void;
 }
 
 const Modal = ({
   sx,
   isOpen = false,
   keepMounted = false,
-  handleClose,
+  onClose,
   children,
 }: Props) => {
   const theme = useTheme();
@@ -21,7 +21,7 @@ const Modal = ({
     <MuiModal
       open={isOpen}
       keepMounted={keepMounted}
-      onClose={handleClose}
+      onClose={onClose}
     >
       <Box
         sx={{
@@ -44,7 +44,7 @@ const Modal = ({
             top: '14px',
             right: '14px',
           }}
-          onClick={handleClose}
+          onClick={onClose}
         >
           <CloseIcon
             sx={{

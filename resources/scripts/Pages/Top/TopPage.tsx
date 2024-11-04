@@ -1,9 +1,22 @@
 import BasicButton from '@/scripts/Components/Button/BasicButton';
 import { Box, Typography } from '@mui/material';
 import { ButtonType } from '@/scripts/Enum/ButtonType';
+import LoginModal from '@/scripts/Modals/Top/LoginModal';
+import Modal from '@/scripts/Components/Modal';
 import PageBase from '@/scripts/Pages/PageBase';
+import { useCallback, useState } from 'react';
 
 const TopPage = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const handleOpen = useCallback(() => {
+    setIsOpen(true);
+  }, []);
+
+  const handleClose = useCallback(() => {
+    setIsOpen(false);
+  }, []);
+
   return (
     <PageBase
       sx={{ padding: '0px' }}
@@ -23,12 +36,18 @@ const TopPage = () => {
           sx={{
             width: '120px',
           }}
-          type={ButtonType.SECONDARY}
+          type={ButtonType.PRIMARY}
           label={'ログイン'}
-          href={'/login'}
+          onClick={handleOpen}
         />
       </Box>
       <Typography>トップページ</Typography>
+      <Modal
+        isOpen={isOpen}
+        onClose={handleClose}
+      >
+        <LoginModal />
+      </Modal>
     </PageBase>
   );
 };

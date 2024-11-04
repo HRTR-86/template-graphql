@@ -34,6 +34,8 @@ const BasicButton = ({
         return theme.palette.object.main;
       case ButtonType.TERTIARY:
         return theme.palette.base.main;
+      case ButtonType.OUTLINE:
+        return theme.palette.base.main;
     }
   }, [type]);
 
@@ -48,6 +50,8 @@ const BasicButton = ({
         return 'base';
       case ButtonType.TERTIARY:
         return 'main';
+      case ButtonType.OUTLINE:
+        return 'object';
     }
   }, [type]);
 

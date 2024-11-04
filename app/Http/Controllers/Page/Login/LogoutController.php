@@ -23,7 +23,7 @@ class LogoutController extends Controller
 
         } catch (Exception $e) {
             return back()->withErrors(
-                $this->getError(ErrorCode::LO9902, $e)
+                $this->getError(ErrorCode::LO9905, $e)
             );
         }
     }

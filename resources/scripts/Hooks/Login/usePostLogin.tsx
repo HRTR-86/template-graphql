@@ -17,25 +17,27 @@ export interface PostLoginParameter {
 const usePostLogin = () => {
   const loadingContext = useLoadingContext();
 
-  function postLogin({
+  const postLogin = ({
     data,
     only,
     handleSuccess,
     handleError,
-  }: PostLoginParameter): void {
-    router.reload({
-      method: 'post',
-      data: {
+  }: PostLoginParameter): void => {
+    router.post(
+      '/login',
+      {
         email: data.email,
         password: data.password,
       },
-      only: only,
-      onStart: loadingContext.handleStart,
-      onFinish: loadingContext.handleFinish,
-      onSuccess: (page: Page) => handleSuccess(page),
-      onError: (errors: Errors) => handleError(errors),
-    });
-  }
+      {
+        only: only,
+        onStart: loadingContext.handleStart,
+        onFinish: loadingContext.handleFinish,
+        onSuccess: (page: Page) => handleSuccess(page),
+        onError: (errors: Errors) => handleError(errors),
+      },
+    );
+  };
 
   return { postLogin };
 };

@@ -9,7 +9,7 @@ use Laravel\Socialite\Contracts\User;
 use Laravel\Socialite\Facades\Socialite;
 use Throwable;
 
-class LoginCallbackService
+class GoogleLoginService
 {
     /**
      * ログイン処理を実行する
