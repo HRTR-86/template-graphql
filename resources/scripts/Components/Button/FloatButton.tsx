@@ -31,7 +31,7 @@ const FloatButton = ({
   /**
    * ボタンクリック時に処理を実行する
    */
-  function handleOnClick(): void {
+  const handleOnClick = (): void => {
     if (href !== undefined) {
       const currentHref = window.location.href;
       const url = new URL(currentHref);
@@ -40,7 +40,7 @@ const FloatButton = ({
     }
 
     onClick?.();
-  }
+  };
 
   return (
     <Button

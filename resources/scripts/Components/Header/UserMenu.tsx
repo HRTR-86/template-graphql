@@ -18,27 +18,26 @@ import { useErrorContext } from '@/scripts/Provider/ErrorProvider';
 import usePostLogout from '@/scripts/Hooks/Login/usePostLogout';
 import { router } from '@inertiajs/react';
 
+const StyledImg = styled('img')({
+  height: '36px',
+  width: '36px',
+  borderRadius: '50%',
+});
+
+const StyledMenuItem = styled(MenuItem)({
+  minWidth: '160px',
+  padding: '10px 16px',
+  display: 'flex',
+});
+
 const UserMenu = () => {
   const authUserContext = useAuthUserContext();
   const errorContext = useErrorContext();
   const theme = useTheme();
 
-  const { postLogout } = usePostLogout();
-
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
 
-  const StyledImg = styled('img')({
-    height: '36px',
-    width: '36px',
-    borderRadius: '50%',
-  });
-
-  const StyledMenuItem = styled(MenuItem)({
-    minWidth: '160px',
-    padding: '10px 16px',
-    display: 'flex',
-    color: theme.palette.object.main,
-  });
+  const { postLogout } = usePostLogout();
 
   /**
    * メニューを開く.

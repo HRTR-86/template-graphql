@@ -9,7 +9,7 @@ import { Permission } from '@/scripts/Enum/Mst/Permission';
 import { router } from '@inertiajs/react';
 import SampleCommonForm, {
   defaultFormValue,
-  TSampleCommonForm,
+  Form,
 } from '@/scripts/Pages/Sample/SampleCommonForm';
 import { useAuthUserContext } from '@/scripts/Provider/AuthUserProvider';
 import { useErrorContext } from '@/scripts/Provider/ErrorProvider';
@@ -24,7 +24,7 @@ const SampleEditPage = (props: any) => {
   const authUserContext = useAuthUserContext();
   const errorContext = useErrorContext();
 
-  const [form, setForm] = useState<TSampleCommonForm>({
+  const [form, setForm] = useState<Form>({
     parentId: trnSampleParent.id,
     parentName: trnSampleParent.name,
     statusId: trnSampleParent.statusId,
@@ -41,38 +41,38 @@ const SampleEditPage = (props: any) => {
    * 入力フォームを更新する
    * @param newValues
    */
-  function handleFormChange(newValues: Partial<TSampleCommonForm>): void {
+  const handleFormChange = (newValues: Partial<Form>): void => {
     setForm({ ...form, ...newValues });
-  }
+  };
 
   /**
    * キャンセルボタンのクリック時に元の画面に遷移する
    */
-  function handleClickCancel(): void {
+  const handleClickCancel = (): void => {
     const previous = sessionStorage.getItem('previous') ?? '/home';
     router.visit(previous);
-  }
+  };
 
   /**
    * データ登録の成功時に実行する処理
    */
-  function handleSuccess(): void {
+  const handleSuccess = (): void => {
     setForm({ ...defaultFormValue });
-  }
+  };
 
   /**
    * データ登録の失敗時に実行する処理
    * @param errors
    */
-  function handleError(errors: Errors): void {
+  const handleError = (errors: Errors): void => {
     const { error } = parseErrorProps(errors);
     errorContext.handleChange(error);
-  }
+  };
 
   /**
    * 親テーブルのデータを登録する
    */
-  function handlePost(): void {
+  const handlePost = (): void => {
     const isConfirmed = confirm('親テーブルデータを保存しますか？');
     if (!isConfirmed) {
       return;
@@ -84,7 +84,7 @@ const SampleEditPage = (props: any) => {
       handleSuccess: handleSuccess,
       handleError: handleError,
     });
-  }
+  };
 
   return (
     <PageBase

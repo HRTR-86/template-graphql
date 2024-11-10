@@ -5,9 +5,9 @@ const NotFoundPage = () => {
   /**
    * 戻るボタンをクリックした際にホームに戻る
    */
-  function handleClickBack(): void {
+  const handleClickBack = (): void => {
     router.visit('/home');
-  }
+  };
 
   return (
     <PageBase

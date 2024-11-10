@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Page\Profile;
 use App\Enums\Common\ErrorCode;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Profile\ProfileEditRequest;
-use App\Models\Trn\TrnUserRole;
 use App\Service\Profile\ProfileEditService;
+use App\Service\Profile\ProfileInitialService;
 use App\Usecases\Profile\ProfileEditInput;
 use Auth;
 use Exception;
@@ -20,9 +20,11 @@ use Throwable;
 class ProfileController extends Controller
 {
     /**
+     * @param ProfileInitialService $profileInitialService
      * @param ProfileEditService $profileEditService
      */
     public function __construct(
+        private readonly ProfileInitialService $profileInitialService,
         private readonly ProfileEditService $profileEditService,
     ) {}
 
@@ -37,19 +39,11 @@ class ProfileController extends Controller
                 throw new Exception('未認証のためアクセスできません');
             }
 
-            $loginUser = Auth::user();
-            $trnUser   = $loginUser->with(['trnUserRole'])->first();
+            $output = $this->profileInitialService->handle();
 
             return Inertia::render(
                 'Profile/ProfileIndex',
-                [
-                    'trn_user_role_list' => $trnUser?->trnUserRole?->map(function (TrnUserRole $trnUserRole) {
-                        return [
-                            'role_id'    => $trnUserRole->role_id,
-                            'is_current' => $trnUserRole->is_current,
-                        ];
-                    }) ?? [],
-                ],
+                $output->getOutput(),
             );
 
         } catch (Exception  $e) {

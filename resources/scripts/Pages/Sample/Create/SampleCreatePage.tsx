@@ -8,7 +8,7 @@ import { parseSampleCreateProps } from '@/scripts/Parser/Sample/Create/parseSamp
 import { router } from '@inertiajs/react';
 import SampleCommonForm, {
   defaultFormValue,
-  TSampleCommonForm,
+  Form,
 } from '@/scripts/Pages/Sample/SampleCommonForm';
 import { useCallback, useState } from 'react';
 import { useErrorContext } from '@/scripts/Provider/ErrorProvider';
@@ -20,7 +20,7 @@ const SampleCreatePage = (props: any) => {
 
   const errorContext = useErrorContext();
 
-  const [form, setForm] = useState<TSampleCommonForm>({
+  const [form, setForm] = useState<Form>({
     ...defaultFormValue,
   });
 
@@ -33,15 +33,12 @@ const SampleCreatePage = (props: any) => {
    * 入力フォームを更新する
    * @param newValues
    */
-  const handleFormChange = useCallback(
-    (newValues: Partial<TSampleCommonForm>): void => {
-      setForm((currentValues) => ({
-        ...currentValues,
-        ...newValues,
-      }));
-    },
-    [],
-  );
+  const handleFormChange = useCallback((newValues: Partial<Form>): void => {
+    setForm((currentValues) => ({
+      ...currentValues,
+      ...newValues,
+    }));
+  }, []);
 
   /**
    * キャンセルボタンのクリック時に元の画面に遷移する

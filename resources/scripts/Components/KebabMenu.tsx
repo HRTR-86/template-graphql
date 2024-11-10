@@ -25,9 +25,9 @@ const KebabMenu = ({ sx, menuList }: Props) => {
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  function handleOpen(event: MouseEvent<HTMLButtonElement>): void {
+  const handleOpen = (event: MouseEvent<HTMLButtonElement>): void => {
     setAnchorEl(event.currentTarget);
-  }
+  };
 
   return (
     <Display isDisplay={menuList.length > 0}>

@@ -1,5 +1,4 @@
 import BasicButton from '@/scripts/Components/Button/BasicButton';
-import { Box, Paper, Stack, styled, Typography, useTheme } from '@mui/material';
 import { ButtonType } from '@/scripts/Enum/ButtonType';
 import { Dayjs } from 'dayjs';
 import { FormTitle } from '@/scripts/Components/Display/FormTitle';
@@ -7,6 +6,7 @@ import InputDateWithTime from '@/scripts/Components/Form/InputDateWithTime';
 import InputField from '@/scripts/Components/Form/InputField';
 import { memo, useCallback, useMemo, useState } from 'react';
 import Modal from '@/scripts/Components/Modal';
+import { Paper, Stack, Typography, useTheme } from '@mui/material';
 import { parseErrorMessageList } from '@/scripts/Validation/Validation';
 import { PostCreateSampleChildParameter } from '@/scripts/Hooks/Sample/usePostCreateSampleChild';
 import { PropsBase } from '@/scripts/Common/System';
@@ -21,20 +21,13 @@ interface TrnSampleChild {
 }
 
 interface Props extends PropsBase {
-  form: TSampleCommonForm;
+  form: Form;
   trnSampleChildList: TrnSampleChild[];
-  handleFormChange: (newValues: Partial<TSampleCommonForm>) => void;
+  handleFormChange: (newValues: Partial<Form>) => void;
   postCreateSampleChild: (parameter: PostCreateSampleChildParameter) => void;
 }
 
-const StyledBoxForItem = styled(Box)({
-  width: '100%',
-  display: 'flex',
-  alignItems: 'center',
-  gap: '4px',
-});
-
-export interface TSampleCommonForm {
+export interface Form {
   parentId: number;
   parentName: string;
   statusId: number;
@@ -136,7 +129,10 @@ const SampleCommonForm = memo(
             </Stack>
             <Stack spacing={1}>
               <FormTitle title={'子テーブル'} />
-              <StyledBoxForItem>
+              <Stack
+                spacing={0.5}
+                direction={'row'}
+              >
                 <SelectMultiple
                   sx={{ width: '100%' }}
                   valueList={form.childIdList}
@@ -159,7 +155,7 @@ const SampleCommonForm = memo(
                   type={ButtonType.SECONDARY}
                   onClick={() => setIsOpenModal(true)}
                 />
-              </StyledBoxForItem>
+              </Stack>
             </Stack>
           </Stack>
         </Paper>
