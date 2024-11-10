@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Page\Profile;
 use App\Enums\Common\ErrorCode;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Profile\ProfileEditRequest;
+use App\Models\Trn\TrnUserRole;
 use App\Service\Profile\ProfileEditService;
 use App\Usecases\Profile\ProfileEditInput;
 use Auth;
 use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -38,16 +38,17 @@ class ProfileController extends Controller
             }
 
             $loginUser = Auth::user();
-            $trnUser   = $loginUser->with(['trnUserRole' => function ($query) {
-                $query->where('is_current', 1);
-            }])->first();
+            $trnUser   = $loginUser->with(['trnUserRole'])->first();
 
             return Inertia::render(
                 'Profile/ProfileIndex',
                 [
-                    'trn_user_role' => [
-                        'role_id' => $trnUser->trnUserRole->firstWhere('is_current', 1)->role_id,
-                    ],
+                    'trn_user_role_list' => $trnUser?->trnUserRole?->map(function (TrnUserRole $trnUserRole) {
+                        return [
+                            'role_id'    => $trnUserRole->role_id,
+                            'is_current' => $trnUserRole->is_current,
+                        ];
+                    }) ?? [],
                 ],
             );
 
@@ -65,7 +66,7 @@ class ProfileController extends Controller
      * @return Response|RedirectResponse
      * @throws Throwable
      */
-    public function edit(ProfileEditRequest $request): Response|RedirectResponse|JsonResponse
+    public function edit(ProfileEditRequest $request): Response|RedirectResponse
     {
         try {
             if (! Auth::check()) {
@@ -73,7 +74,7 @@ class ProfileController extends Controller
             }
 
             $parameters = array_merge($request->all(), $request->route()->parameters());
-            $input      = new ProfileEditInput($parameters, \Illuminate\Support\Facades\Auth::id());
+            $input      = new ProfileEditInput($parameters, Auth::id());
             $output     = DB::transaction(function () use ($input) {
                 return $this->profileEditService->handle($input);
             });

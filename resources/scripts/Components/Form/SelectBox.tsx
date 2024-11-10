@@ -10,9 +10,14 @@ import {
 import { memo } from 'react';
 import { PropsBase } from '@/scripts/Common/System';
 
+interface SelectItem {
+  id: number;
+  name: string;
+}
+
 interface Props extends PropsBase {
   value: number;
-  list: any[];
+  selectItemList: SelectItem[];
   disabled?: boolean;
   handleChange: (value: any) => void;
 }
@@ -21,7 +26,7 @@ const SelectBox = memo(
   ({
     sx,
     value,
-    list,
+    selectItemList,
     disabled,
     handleChange,
     errorMessageList = [],
@@ -54,7 +59,7 @@ const SelectBox = memo(
               fontSize: '14px',
             },
           }}
-          value={value}
+          value={selectItemList.length > 0 ? value : 0}
           disabled={disabled}
           variant={'outlined'}
           onChange={(event) => handleChange(event.target.value)}
@@ -68,7 +73,7 @@ const SelectBox = memo(
               {'ー 値を選択してください ー'}
             </MenuItem>
           }
-          {list?.map((item: any) => {
+          {selectItemList?.map((item: SelectItem) => {
             return (
               <MenuItem
                 key={item.id}

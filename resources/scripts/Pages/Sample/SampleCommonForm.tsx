@@ -121,7 +121,7 @@ const SampleCommonForm = memo(
               <FormTitle title={'ステータス'} />
               <SelectBox
                 value={form.statusId}
-                list={mstSampleStatusList}
+                selectItemList={mstSampleStatusList}
                 handleChange={(value) => handleFormChange({ statusId: value })}
                 errorMessageList={errorList?.status_id ?? []}
               />

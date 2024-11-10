@@ -5,7 +5,7 @@ import { Errors } from '@inertiajs/core/types/types';
 import PageBase from '@/scripts/Pages/PageBase';
 import { parseErrorProps } from '@/scripts/Parser/Common/parseErrorProps';
 import { parseProfileProps } from '@/scripts/Parser/Profile/parseProfileProps';
-import ProfileForm, { TProfileForm } from '@/scripts/Pages/Profile/ProfileForm';
+import ProfileForm, { Form } from '@/scripts/Pages/Profile/ProfileForm';
 import { router } from '@inertiajs/react';
 import { useAuthUserContext } from '@/scripts/Provider/AuthUserProvider';
 import { useCallback, useEffect, useState } from 'react';
@@ -14,15 +14,16 @@ import { useSnackbarContext } from '@/scripts/Provider/SnackbarProvider';
 import usePostEditProfile from '@/scripts/Hooks/Profile/usePostEditProfile';
 
 const HomePage = (props: any) => {
-  const { trnUserRole, flash, errorList } = parseProfileProps(props);
+  const { trnUserRoleList, flash, errorList } = parseProfileProps(props);
 
   const authUserContext = useAuthUserContext();
   const snackbarContext = useSnackbarContext();
   const errorContext = useErrorContext();
 
-  const [form, setForm] = useState<TProfileForm>({
+  const [form, setForm] = useState<Form>({
     userName: authUserContext.authUser.name,
-    roleId: trnUserRole.role_id,
+    roleId:
+      trnUserRoleList.find((trnUserRole) => trnUserRole.isCurrent)?.roleId ?? 0,
   });
 
   const { postEditProfile } = usePostEditProfile();
@@ -41,15 +42,12 @@ const HomePage = (props: any) => {
    * 入力フォームを更新する
    * @param newValues
    */
-  const handleFormChange = useCallback(
-    (newValues: Partial<TProfileForm>): void => {
-      setForm((currentValues) => ({
-        ...currentValues,
-        ...newValues,
-      }));
-    },
-    [],
-  );
+  const handleFormChange = useCallback((newValues: Partial<Form>): void => {
+    setForm((currentValues) => ({
+      ...currentValues,
+      ...newValues,
+    }));
+  }, []);
 
   /**
    * データ登録の失敗時に実行する処理
@@ -125,6 +123,7 @@ const HomePage = (props: any) => {
       </Box>
       <ProfileForm
         form={form}
+        trnUserRoleList={trnUserRoleList}
         handleFormChange={handleFormChange}
         errorList={errorList}
       />
