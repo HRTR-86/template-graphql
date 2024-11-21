@@ -19,6 +19,10 @@ return new class extends Migration
                 ->default('')
                 ->comment('ロール名');
 
+            $table->boolean('is_unique_target')
+                ->virtualAs('IF(deleted_at IS NULL, 1, NULL)')
+                ->comment('ユニーク制約の対象であるか');
+
             $table->datetime('created_at')
                 ->nullable(false)
                 ->default(DB::raw('CURRENT_TIMESTAMP'))
@@ -42,6 +46,8 @@ return new class extends Migration
             $table->datetime('deleted_at')
                 ->nullable()
                 ->comment('削除日時');
+
+            $table->unique(['name', 'is_unique_target']);
         });
     }
 

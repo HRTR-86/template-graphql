@@ -11,13 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mst_permission', function (Blueprint $table) {
+        Schema::create('mst_role_permission', function (Blueprint $table) {
             $table->increments('id')->primary()->comment('ID');
 
-            $table->string('name', 255)
-                ->nullable(false)
-                ->default('')
-                ->comment('権限名');
+            $table->unsignedInteger('role_id')
+                ->nullable()
+                ->comment('ロールID');
+
+            $table->unsignedInteger('permission_id')
+                ->nullable()
+                ->comment('権限ID');
 
             $table->datetime('created_at')
                 ->nullable(false)
@@ -42,6 +45,14 @@ return new class extends Migration
             $table->datetime('deleted_at')
                 ->nullable()
                 ->comment('削除日時');
+
+            $table->foreign('role_id')
+                ->references('id')
+                ->on('mst_role');
+
+            $table->foreign('permission_id')
+                ->references('id')
+                ->on('mst_permission');
         });
     }
 
@@ -50,6 +61,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mst_permission');
+        Schema::dropIfExists('mst_role_permission');
     }
 };

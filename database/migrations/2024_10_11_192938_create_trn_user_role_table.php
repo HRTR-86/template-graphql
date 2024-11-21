@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('trn_user_role', function (Blueprint $table) {
             $table->id()->comment('ID');
 
-            $table->bigInteger('user_id')
-                ->nullable(false)
+            $table->unsignedBigInteger('user_id')
+                ->nullable()
                 ->comment('ユーザーID');
 
             $table->unsignedInteger('role_id')
-                ->nullable(false)
+                ->nullable()
                 ->comment('ロールID');
 
             $table->boolean('is_current')
@@ -50,6 +50,14 @@ return new class extends Migration
             $table->datetime('deleted_at')
                 ->nullable()
                 ->comment('削除日時');
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('trn_user');
+
+            $table->foreign('role_id')
+                ->references('id')
+                ->on('mst_role');
         });
     }
 

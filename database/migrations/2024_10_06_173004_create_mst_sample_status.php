@@ -12,12 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('mst_sample_status', function (Blueprint $table) {
-            $table->id()->comment('ID');
+            $table->increments('id')->primary()->comment('ID');
 
             $table->string('name', 255)
                 ->nullable(false)
                 ->default('')
                 ->comment('ステータス名');
+
+            $table->boolean('is_unique_target')
+                ->virtualAs('IF(deleted_at IS NULL, 1, NULL)')
+                ->comment('ユニーク制約の対象であるか');
 
             $table->datetime('created_at')
                 ->nullable()
@@ -40,6 +44,8 @@ return new class extends Migration
             $table->datetime('deleted_at')
                 ->nullable()
                 ->comment('削除日時');
+
+            $table->unique(['name', 'is_unique_target']);
         });
     }
 

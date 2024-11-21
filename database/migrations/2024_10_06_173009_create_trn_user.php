@@ -20,7 +20,6 @@ return new class extends Migration
                 ->comment('名前');
 
             $table->string('email', 255)
-                ->unique()
                 ->nullable(false)
                 ->default('')
                 ->comment('メールアドレス');
@@ -34,6 +33,10 @@ return new class extends Migration
                 ->nullable()
                 ->default('')
                 ->comment('プロフィール画像URL');
+
+            $table->boolean('is_unique_target')
+                ->virtualAs('IF(deleted_at IS NULL, 1, NULL)')
+                ->comment('ユニーク制約の対象であるか');
 
             $table->datetime('created_at')
                 ->nullable(false)
@@ -58,6 +61,8 @@ return new class extends Migration
             $table->datetime('deleted_at')
                 ->nullable()
                 ->comment('削除日時');
+
+            $table->unique(['email', 'is_unique_target']);
         });
     }
 
