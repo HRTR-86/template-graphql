@@ -21,7 +21,7 @@ class SampleChildCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'child_list.*.name' => ['required', 'string', 'max:255'],
         ];
     }
 
@@ -32,7 +32,7 @@ class SampleChildCreateRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'name' => '子テーブルレコード名',
+            'child_list.*.name' => '子テーブルレコード名',
         ];
     }
 }

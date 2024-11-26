@@ -4,7 +4,9 @@ import { useCallback } from 'react';
 import { useLoadingContext } from '@/scripts/Provider/LoadingProvider';
 
 interface CreateSampleChildData {
-  name: string;
+  childList: {
+    name: string;
+  }[];
 }
 
 export interface PostCreateSampleChildParameter {
@@ -27,7 +29,7 @@ const usePostCreateSampleChild = (url: string) => {
       router.post(
         url,
         {
-          name: data.name,
+          child_list: data.childList,
         },
         {
           only: only,

@@ -3,6 +3,7 @@
 namespace App\Service\SampleChild;
 
 use App\Models\Trn\TrnSampleChild;
+use App\Usecases\SampleChild\ChildObject;
 use App\Usecases\SampleChild\SampleChildCreateInput;
 use App\Usecases\SampleChild\SampleChildCreateOutput;
 use Throwable;
@@ -29,11 +30,13 @@ class SampleChildCreateService
      */
     private function createSampleChild(SampleChildCreateInput $input): void
     {
-        $trnSampleChild = new TrnSampleChild();
+        $input->childList->each(function (ChildObject $child) use ($input) {
+            $trnSampleChild = new TrnSampleChild();
 
-        $trnSampleChild->name       = $input->name;
-        $trnSampleChild->created_by = $input->operationUserId;
+            $trnSampleChild->name       = $child->name;
+            $trnSampleChild->created_by = $input->operationUserId;
 
-        $trnSampleChild->storage($input->operationUserId);
+            $trnSampleChild->storage($input->operationUserId);
+        });
     }
 }
