@@ -11,6 +11,7 @@ use Database\Seeders\Mst\MstRolePermissionSeeder;
 use Database\Seeders\Mst\MstRoleSeeder;
 use Database\Seeders\Mst\MstSampleStatusSeeder;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * マスタデータ一括投入用Seeder
@@ -31,6 +32,8 @@ class ExecuteMstSeeder extends Seeder
             return;
         }
 
+        Schema::disableForeignKeyConstraints();
+
         MstPermission::truncate();
         MstRole::truncate();
         MstRolePermission::truncate();
@@ -42,5 +45,7 @@ class ExecuteMstSeeder extends Seeder
             MstRolePermissionSeeder::class,
             MstSampleStatusSeeder::class,
         ]);
+
+        Schema::enableForeignKeyConstraints();
     }
 }
