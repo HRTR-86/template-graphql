@@ -5,6 +5,7 @@ namespace App\Enums\Common;
 enum ErrorCode: string
 {
     // ログイン
+    case LO1001 = 'LO1001';
     case LO9901 = 'LO9901';
     case LO9902 = 'LO9902';
     case LO9903 = 'LO9903';
@@ -35,6 +36,7 @@ enum ErrorCode: string
     public function getErrorMessage(): string
     {
         return match ($this) {
+            self::LO1001 => 'ユーザーの新規登録に失敗しました',
             self::LO9901,
             self::LO9902 => 'Google認証画面へのリダイレクトに失敗しました',
             self::LO9903,

@@ -1,20 +1,27 @@
 import BasicButton from '@/scripts/Components/Button/BasicButton';
-import { Box, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import { ButtonType } from '@/scripts/Enum/ButtonType';
 import LoginModal from '@/scripts/Modals/Top/LoginModal';
 import Modal from '@/scripts/Components/Modal';
 import PageBase from '@/scripts/Pages/PageBase';
 import { useCallback, useState } from 'react';
+import SignUpModal from '@/scripts/Modals/Top/SignUpModal';
+
+type ModalType = 'login' | 'signUp';
 
 const TopPage = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [openedModal, setOpenedModal] = useState<ModalType | null>(null);
 
-  const handleOpen = useCallback(() => {
-    setIsOpen(true);
+  const handleOpenSignUp = useCallback(() => {
+    setOpenedModal('signUp');
+  }, []);
+
+  const handleOpenLogin = useCallback(() => {
+    setOpenedModal('login');
   }, []);
 
   const handleClose = useCallback(() => {
-    setIsOpen(false);
+    setOpenedModal(null);
   }, []);
 
   return (
@@ -32,18 +39,37 @@ const TopPage = () => {
           alignItems: 'center',
         }}
       >
-        <BasicButton
-          sx={{
-            width: '120px',
-          }}
-          type={ButtonType.PRIMARY}
-          label={'ログイン'}
-          onClick={handleOpen}
-        />
+        <Stack
+          spacing={1}
+          direction={'row'}
+        >
+          <BasicButton
+            sx={{
+              width: '120px',
+            }}
+            type={ButtonType.TERTIARY}
+            label={'新規登録'}
+            onClick={handleOpenSignUp}
+          />
+          <BasicButton
+            sx={{
+              width: '120px',
+            }}
+            type={ButtonType.PRIMARY}
+            label={'ログイン'}
+            onClick={handleOpenLogin}
+          />
+        </Stack>
       </Box>
       <Typography>トップページ</Typography>
       <Modal
-        isOpen={isOpen}
+        isOpen={openedModal === 'signUp'}
+        onClose={handleClose}
+      >
+        <SignUpModal />
+      </Modal>
+      <Modal
+        isOpen={openedModal === 'login'}
         onClose={handleClose}
       >
         <LoginModal />

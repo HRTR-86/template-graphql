@@ -7,33 +7,35 @@ import InputField from '@/scripts/Components/Form/InputField';
 import { parseErrorProps } from '@/scripts/Parser/Common/parseErrorProps';
 import { PropsBase } from '@/scripts/Common/System';
 import { useErrorContext } from '@/scripts/Provider/ErrorProvider';
-import usePostLogin from '@/scripts/Hooks/Login/usePostLogin';
+import usePostSignUp from '@/scripts/Hooks/Login/usePostSignUp';
 import { useState } from 'react';
 
-interface LoginForm {
+interface SignUpForm {
+  name: string;
   email: string;
   password: string;
 }
 
 interface Props extends PropsBase {}
 
-const LoginModal = (_: Props) => {
+const SignUpModal = (_: Props) => {
   const theme = useTheme();
 
   const errorContext = useErrorContext();
 
-  const [form, setForm] = useState<LoginForm>({
+  const [form, setForm] = useState<SignUpForm>({
+    name: 'sample',
     email: 'sample@919.jp',
     password: 'password',
   });
 
-  const { postLogin } = usePostLogin();
+  const { postSignUp } = usePostSignUp();
 
   /**
    * 入力フォームの更新
    * @param newValues
    */
-  const handleChange = (newValues: Partial<LoginForm>) => {
+  const handleChange = (newValues: Partial<SignUpForm>) => {
     setForm({ ...form, ...newValues });
   };
 
@@ -47,10 +49,10 @@ const LoginModal = (_: Props) => {
   };
 
   /**
-   * ログイン情報を送信する
+   * 新規登録用データを送信する
    */
   const handlePost = (): void => {
-    postLogin({
+    postSignUp({
       data: form,
       only: [],
       handleSuccess: () => {},
@@ -75,7 +77,7 @@ const LoginModal = (_: Props) => {
               src={GoogleIcon}
               alt={'logo'}
             />
-            Googleでログイン
+            Googleで新規登録
           </>
         }
         href={'/login/google'}
@@ -89,6 +91,11 @@ const LoginModal = (_: Props) => {
         </Typography>
       </Stack>
       <Stack spacing={1}>
+        {/* TODO: バリデーションのエラーメッセージを表示する */}
+        <InputField
+          value={form.name}
+          onChange={(value) => handleChange({ name: value })}
+        />
         <InputField
           value={form.email}
           onChange={(value) => handleChange({ email: value })}
@@ -99,7 +106,7 @@ const LoginModal = (_: Props) => {
         />
         <BasicButton
           type={ButtonType.PRIMARY}
-          label={'ログイン'}
+          label={'新規登録'}
           onClick={handlePost}
         />
       </Stack>
@@ -107,4 +114,4 @@ const LoginModal = (_: Props) => {
   );
 };
 
-export default LoginModal;
+export default SignUpModal;

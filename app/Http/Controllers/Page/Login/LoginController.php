@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Page\Login;
 
 use App\Enums\Common\ErrorCode;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Login\LoginRequest;
 use App\Service\Login\LoginService;
 use App\Usecases\Login\LoginInput;
 use Exception;
@@ -12,7 +13,6 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Laravel\Socialite\Facades\Socialite;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Throwable;
 
 class LoginController extends Controller
 {
@@ -44,38 +44,15 @@ class LoginController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param LoginRequest $request
      * @return RedirectResponse|Response
-     * @throws Throwable
      */
-    public function login(Request $request): RedirectResponse|Response
+    public function login(LoginRequest $request): RedirectResponse|Response
     {
         try {
             $parameters = array_merge($request->all(), $request->route()->parameters());
             $input      = new LoginInput($parameters);
             $this->loginService->handle($input);
-
-            // TODO: 新規登録機能へ移行する
-            //            $email    = (string) $request->get('email');
-            //            $password = (string) $request->get('password');
-            //            $authUser = AuthUserRepository::findByEmail($email);
-            //
-            //            if (is_null($authUser)) {
-            //                $$authUser = DB::transaction(function () use ($email) {
-            //                    $authUser            = new AuthUser();
-            //                    $authUser->name      = 'ログインテスト';
-            //                    $authUser->email     = $email;
-            //                    $authUser->image_url = '';
-            //                    $authUser->saveOrFail();
-            //
-            //                    $trnUserRole          = new TrnUserRole();
-            //                    $trnUserRole->user_id = $authUser->id;
-            //                    $trnUserRole->role_id = 3;
-            //                    $trnUserRole->saveOrFail();
-            //
-            //                    return $authUser;
-            //                });
-            //            }
 
             return Inertia::render(
                 'Home/HomeIndex',

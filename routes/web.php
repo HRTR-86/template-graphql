@@ -4,6 +4,7 @@ use App\Http\Controllers\Page\Home\HomeController;
 use App\Http\Controllers\Page\Login\GoogleLoginController;
 use App\Http\Controllers\Page\Login\LoginController;
 use App\Http\Controllers\Page\Login\LogoutController;
+use App\Http\Controllers\Page\Login\SignUpController;
 use App\Http\Controllers\Page\NotFound\NotFoundController;
 use App\Http\Controllers\Page\Profile\ProfileController;
 use App\Http\Controllers\Page\Sample\SampleCreateController;
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 // 認証が不要なページ
 Route::get('/', TopController::class)->name('top');
+
+Route::post('/sign-up', SignUpController::class);
 
 Route::get('/login', LoginController::class);
 Route::post('/login', [LoginController::class, 'login']);
