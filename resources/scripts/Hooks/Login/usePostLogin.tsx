@@ -1,6 +1,8 @@
 import { Errors, Page } from '@inertiajs/core/types/types';
+import { ErrorList } from '@/scripts/Common/System';
 import { router } from '@inertiajs/react';
 import { useLoadingContext } from '@/scripts/Provider/LoadingProvider';
+import { useState } from 'react';
 
 interface PostLoginData {
   email: string;
@@ -16,6 +18,8 @@ export interface PostLoginParameter {
 
 const usePostLogin = () => {
   const loadingContext = useLoadingContext();
+
+  const [errors, setErrors] = useState<ErrorList>([] as never);
 
   const postLogin = ({
     data,
@@ -34,12 +38,20 @@ const usePostLogin = () => {
         onStart: loadingContext.handleStart,
         onFinish: loadingContext.handleFinish,
         onSuccess: (page: Page) => handleSuccess(page),
-        onError: (errors: Errors) => handleError(errors),
+        onError: (errors: Errors) => {
+          if (Object.prototype.hasOwnProperty.call(errors, 'error')) {
+            handleError(errors);
+          } else {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            setErrors(errors);
+          }
+        },
       },
     );
   };
 
-  return { postLogin };
+  return { postLogin, errors };
 };
 
 export default usePostLogin;

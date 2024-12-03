@@ -20,6 +20,10 @@ class MstRole extends Model
         'updated_by',
     ];
 
+    protected $hidden = [
+        'is_unique_target',
+    ];
+
     /**
      * @return HasManyThrough
      */

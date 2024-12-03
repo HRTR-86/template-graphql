@@ -23,11 +23,11 @@ const LoginModal = (_: Props) => {
   const errorContext = useErrorContext();
 
   const [form, setForm] = useState<LoginForm>({
-    email: 'sample@919.jp',
-    password: 'password',
+    email: '',
+    password: '',
   });
 
-  const { postLogin } = usePostLogin();
+  const { postLogin, errors } = usePostLogin();
 
   /**
    * 入力フォームの更新
@@ -91,11 +91,16 @@ const LoginModal = (_: Props) => {
       <Stack spacing={1}>
         <InputField
           value={form.email}
+          placeholder={'メールアドレス'}
           onChange={(value) => handleChange({ email: value })}
+          errorMessageList={errors.email ?? []}
         />
         <InputField
           value={form.password}
+          placeholder={'パスワード'}
+          type={'password'}
           onChange={(value) => handleChange({ password: value })}
+          errorMessageList={errors.password ?? []}
         />
         <BasicButton
           type={ButtonType.PRIMARY}

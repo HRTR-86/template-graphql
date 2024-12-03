@@ -30,6 +30,10 @@ class AuthUser extends Authenticatable
         'deleted_at',
     ];
 
+    protected $casts = [
+        'password' => 'hashed',
+    ];
+
     /**
      * The attributes that should be hidden for serialization.
      *

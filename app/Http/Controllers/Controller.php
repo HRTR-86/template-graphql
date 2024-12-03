@@ -31,7 +31,7 @@ class Controller extends BaseController
                 'status'  => $statusCode,
                 'code'    => $errorCode->value,
                 'title'   => $errorCode->getErrorMessage(),
-                'message' => $e->getMessage(),
+                'message' => "{$statusCode}｜{$e->getMessage()}\n{$e->getFile()}:{$e->getLine()}",
             ],
         ];
     }

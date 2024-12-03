@@ -17,4 +17,8 @@ class MstSampleStatus extends Model
         'created_by',
         'updated_by',
     ];
+
+    protected $hidden = [
+        'is_unique_target',
+    ];
 }

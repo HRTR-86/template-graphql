@@ -6,8 +6,8 @@ import usePostLogin from '@/scripts/Hooks/Login/usePostLogin';
 
 const LoginPage = (props: any) => {
   const [form, setForm] = useState({
-    email: 'hoshi-ryotaro@919.jp',
-    password: 'password',
+    email: '',
+    password: '',
   });
 
   const { postLogin } = usePostLogin();

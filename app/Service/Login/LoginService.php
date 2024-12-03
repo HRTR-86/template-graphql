@@ -6,6 +6,7 @@ use App\Repositories\Auth\AuthUserRepository;
 use App\Usecases\Login\LoginInput;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class LoginService
 {
@@ -24,8 +25,7 @@ class LoginService
             throw new Exception('ユーザが存在しません');
         }
 
-        // TODO: パスワードをハッシュ化する
-        if ($input->password !== $authUser->password) {
+        if (! Hash::check($input->password, $authUser->password)) {
             throw new Exception('パスワードが一致しません');
         }
 

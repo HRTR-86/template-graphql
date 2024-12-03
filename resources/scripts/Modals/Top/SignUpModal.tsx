@@ -24,9 +24,9 @@ const SignUpModal = (_: Props) => {
   const errorContext = useErrorContext();
 
   const [form, setForm] = useState<SignUpForm>({
-    name: 'sample',
-    email: 'sample@919.jp',
-    password: 'password',
+    name: '',
+    email: '',
+    password: '',
   });
 
   const { postSignUp } = usePostSignUp();
@@ -66,7 +66,7 @@ const SignUpModal = (_: Props) => {
         sx={{ display: 'flex', justifyContent: 'center' }}
         variant={'h2'}
       >
-        ログイン
+        新規登録
       </Typography>
       <BasicButton
         type={ButtonType.OUTLINE}
@@ -94,14 +94,18 @@ const SignUpModal = (_: Props) => {
         {/* TODO: バリデーションのエラーメッセージを表示する */}
         <InputField
           value={form.name}
+          placeholder={'名前'}
           onChange={(value) => handleChange({ name: value })}
         />
         <InputField
           value={form.email}
+          placeholder={'メールアドレス'}
           onChange={(value) => handleChange({ email: value })}
         />
         <InputField
           value={form.password}
+          placeholder={'パスワード'}
+          type={'password'}
           onChange={(value) => handleChange({ password: value })}
         />
         <BasicButton
