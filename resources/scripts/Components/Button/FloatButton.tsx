@@ -28,20 +28,6 @@ const FloatButton = ({
 }: Props) => {
   const theme = useTheme();
 
-  /**
-   * ボタンクリック時に処理を実行する
-   */
-  const handleOnClick = (): void => {
-    if (href !== undefined) {
-      const currentHref = window.location.href;
-      const url = new URL(currentHref);
-      sessionStorage.setItem('previous', url.pathname);
-      return;
-    }
-
-    onClick?.();
-  };
-
   return (
     <Button
       sx={{
@@ -60,7 +46,7 @@ const FloatButton = ({
       startIcon={startIcon}
       disabled={disabled}
       href={href}
-      onClick={handleOnClick}
+      onClick={onClick}
       variant="contained"
     >
       {label}

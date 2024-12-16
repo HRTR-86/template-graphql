@@ -13,6 +13,7 @@ import SampleCommonForm, {
 } from '@/scripts/Pages/Sample/SampleCommonForm';
 import { useAuthUserContext } from '@/scripts/Provider/AuthUserProvider';
 import { useErrorContext } from '@/scripts/Provider/ErrorProvider';
+import { useNavigate } from 'react-router-dom';
 import usePostEditSample from '@/scripts/Hooks/Sample/usePostEditSample';
 import usePostCreateSampleChild from '@/scripts/Hooks/Sample/usePostCreateSampleChild';
 import { useState } from 'react';
@@ -23,6 +24,7 @@ const SampleEditPage = (props: any) => {
 
   const authUserContext = useAuthUserContext();
   const errorContext = useErrorContext();
+  const navigate = useNavigate();
 
   const [form, setForm] = useState<Form>({
     parentId: trnSampleParent.id,
@@ -49,8 +51,7 @@ const SampleEditPage = (props: any) => {
    * キャンセルボタンのクリック時に元の画面に遷移する
    */
   const handleClickCancel = (): void => {
-    const previous = sessionStorage.getItem('previous') ?? '/home';
-    router.visit(previous);
+    navigate(-1);
   };
 
   /**

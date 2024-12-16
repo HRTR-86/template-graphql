@@ -99,7 +99,7 @@ const SampleCommonForm = memo(
             >
               親テーブルの情報
             </Typography>
-            <Stack spacing={1}>
+            <Stack spacing={0.5}>
               <FormTitle
                 title={'親テーブルレコード名'}
                 isRequired={true}
@@ -110,7 +110,7 @@ const SampleCommonForm = memo(
                 errorMessageList={errorList?.parent_name ?? []}
               />
             </Stack>
-            <Stack spacing={1}>
+            <Stack spacing={0.5}>
               <FormTitle title={'ステータス'} />
               <SelectBox
                 value={form.statusId}
@@ -119,7 +119,7 @@ const SampleCommonForm = memo(
                 errorMessageList={errorList?.status_id ?? []}
               />
             </Stack>
-            <Stack spacing={1}>
+            <Stack spacing={0.5}>
               <FormTitle title={'日時'} />
               <InputDateWithTime
                 date={form.datetime}
@@ -127,7 +127,7 @@ const SampleCommonForm = memo(
                 errorMessageList={errorList?.event_date ?? []}
               />
             </Stack>
-            <Stack spacing={1}>
+            <Stack spacing={0.5}>
               <FormTitle title={'子テーブル'} />
               <Stack
                 spacing={0.5}

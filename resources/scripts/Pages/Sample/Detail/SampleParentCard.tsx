@@ -29,10 +29,6 @@ const SampleParentCard = ({ trnSampleParent, mstSampleStatus }: Props) => {
    * メニューの編集ボタンをクリック時に編集画面に遷移する
    */
   const handleClickEdit = (): void => {
-    const currentHref = window.location.href;
-    const url = new URL(currentHref);
-    sessionStorage.setItem('previous', url.pathname);
-
     router.visit(`/sample/edit/${trnSampleParent.id}`);
   };
 

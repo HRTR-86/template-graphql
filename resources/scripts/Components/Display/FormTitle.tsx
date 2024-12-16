@@ -12,7 +12,7 @@ export const FormTitle = ({ sx, title, isRequired = false }: IProps) => {
 
   return (
     <Box sx={{ display: 'flex', ...sx }}>
-      <Typography variant={'caption'}>{title}</Typography>
+      <Typography variant={'subtitle1'}>{title}</Typography>
       <Display isDisplay={isRequired}>
         <Box
           sx={{

@@ -4,11 +4,11 @@ import { ButtonType } from '@/scripts/Enum/ButtonType';
 import PageBase from '@/scripts/Pages/PageBase';
 import { parseSampleDetailProps } from '@/scripts/Parser/Sample/Detail/parseSampleDetailProps';
 import { Permission } from '@/scripts/Enum/Mst/Permission';
-import { router } from '@inertiajs/react';
 import SampleParentCard from '@/scripts/Pages/Sample/Detail/SampleParentCard';
 import { useAuthUserContext } from '@/scripts/Provider/AuthUserProvider';
 import { useEffect } from 'react';
 import useFetchSampleStatusList from '@/scripts/Hooks/Mst/useFetchSampleStatusList';
+import { useNavigate } from 'react-router-dom';
 import { useSnackbarContext } from '@/scripts/Provider/SnackbarProvider';
 
 const SampleDetailPage = (props: any) => {
@@ -16,6 +16,7 @@ const SampleDetailPage = (props: any) => {
 
   const authUserContext = useAuthUserContext();
   const snackbarContext = useSnackbarContext();
+  const navigate = useNavigate();
 
   const mstSampleStatus = useFetchSampleStatusList();
 
@@ -33,7 +34,7 @@ const SampleDetailPage = (props: any) => {
    * ホーム画面に戻る
    */
   const handleClickBack = (): void => {
-    router.visit('/home');
+    navigate(-1);
   };
 
   if (trnSampleParent.id === 0) {

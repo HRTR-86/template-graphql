@@ -55,20 +55,6 @@ const BasicButton = ({
     }
   }, [type]);
 
-  /**
-   * ボタンクリック時に処理を実行する
-   */
-  const handleClick = (): void => {
-    if (href !== undefined) {
-      const currentHref = window.location.href;
-      const url = new URL(currentHref);
-      sessionStorage.setItem('previous', url.pathname);
-      return;
-    }
-
-    onClick?.();
-  };
-
   return (
     <Button
       sx={{
@@ -90,7 +76,7 @@ const BasicButton = ({
       startIcon={startIcon}
       href={href}
       disabled={disabled}
-      onClick={handleClick}
+      onClick={onClick}
     >
       {label}
     </Button>

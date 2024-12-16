@@ -5,13 +5,13 @@ import { Errors } from '@inertiajs/core/types/types';
 import PageBase from '@/scripts/Pages/PageBase';
 import { parseErrorProps } from '@/scripts/Parser/Common/parseErrorProps';
 import { parseSampleCreateProps } from '@/scripts/Parser/Sample/Create/parseSampleCreateProps';
-import { router } from '@inertiajs/react';
 import SampleCommonForm, {
   defaultFormValue,
   Form,
 } from '@/scripts/Pages/Sample/SampleCommonForm';
 import { useCallback, useState } from 'react';
 import { useErrorContext } from '@/scripts/Provider/ErrorProvider';
+import { useNavigate } from 'react-router-dom';
 import usePostCreateSample from '@/scripts/Hooks/Sample/usePostCreateSample';
 import usePostCreateSampleChild from '@/scripts/Hooks/Sample/usePostCreateSampleChild';
 
@@ -19,6 +19,7 @@ const SampleCreatePage = (props: any) => {
   const { trnSampleChildList, errorList } = parseSampleCreateProps(props);
 
   const errorContext = useErrorContext();
+  const navigate = useNavigate();
 
   const [form, setForm] = useState<Form>({
     ...defaultFormValue,
@@ -44,8 +45,7 @@ const SampleCreatePage = (props: any) => {
    * キャンセルボタンのクリック時に元の画面に遷移する
    */
   const handleClickCancel = useCallback((): void => {
-    const previous = sessionStorage.getItem('previous') ?? '/home';
-    router.visit(previous);
+    navigate(-1);
   }, []);
 
   /**
