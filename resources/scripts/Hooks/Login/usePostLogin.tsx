@@ -42,9 +42,7 @@ const usePostLogin = () => {
           if (Object.prototype.hasOwnProperty.call(errors, 'error')) {
             handleError(errors);
           } else {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            setErrors(errors);
+            setErrors(errors as never);
           }
         },
       },

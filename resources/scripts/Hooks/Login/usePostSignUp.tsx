@@ -1,6 +1,8 @@
 import { Errors, Page } from '@inertiajs/core/types/types';
+import { ErrorList } from '@/scripts/Common/System';
 import { router } from '@inertiajs/react';
 import { useLoadingContext } from '@/scripts/Provider/LoadingProvider';
+import { useState } from 'react';
 
 interface PostSignUpData {
   name: string;
@@ -17,6 +19,8 @@ export interface PostSignUpParameter {
 
 const usePostSignUp = () => {
   const loadingContext = useLoadingContext();
+
+  const [errors, setErrors] = useState<ErrorList>([] as never);
 
   const postSignUp = ({
     data,
@@ -36,12 +40,18 @@ const usePostSignUp = () => {
         onStart: loadingContext.handleStart,
         onFinish: loadingContext.handleFinish,
         onSuccess: (page: Page) => handleSuccess(page),
-        onError: (errors: Errors) => handleError(errors),
+        onError: (errors: Errors) => {
+          if (Object.prototype.hasOwnProperty.call(errors, 'error')) {
+            handleError(errors);
+          } else {
+            setErrors(errors as never);
+          }
+        },
       },
     );
   };
 
-  return { postSignUp };
+  return { postSignUp, errors };
 };
 
 export default usePostSignUp;

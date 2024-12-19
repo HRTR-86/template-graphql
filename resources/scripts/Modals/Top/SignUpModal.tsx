@@ -29,7 +29,7 @@ const SignUpModal = (_: Props) => {
     password: '',
   });
 
-  const { postSignUp } = usePostSignUp();
+  const { postSignUp, errors } = usePostSignUp();
 
   /**
    * 入力フォームの更新
@@ -91,22 +91,24 @@ const SignUpModal = (_: Props) => {
         </Typography>
       </Stack>
       <Stack spacing={1}>
-        {/* TODO: バリデーションのエラーメッセージを表示する */}
         <InputField
           value={form.name}
           placeholder={'名前'}
           onChange={(value) => handleChange({ name: value })}
+          errorMessageList={errors.name ?? []}
         />
         <InputField
           value={form.email}
           placeholder={'メールアドレス'}
           onChange={(value) => handleChange({ email: value })}
+          errorMessageList={errors.email ?? []}
         />
         <InputField
           value={form.password}
           placeholder={'パスワード'}
           type={'password'}
           onChange={(value) => handleChange({ password: value })}
+          errorMessageList={errors.password ?? []}
         />
         <BasicButton
           type={ButtonType.PRIMARY}
