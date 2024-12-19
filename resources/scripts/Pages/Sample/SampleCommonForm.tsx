@@ -11,9 +11,11 @@ import { parseErrorMessageList } from '@/scripts/Validation/Validation';
 import { PostCreateSampleChildParameter } from '@/scripts/Hooks/Sample/usePostCreateSampleChild';
 import { PropsBase } from '@/scripts/Common/System';
 import SampleChildCreateModal from '@/scripts/Modals/Sample/SampleChildCreateModal';
-import SelectBox from '@/scripts/Components/Form/SelectBox';
-import SelectMultiple from '@/scripts/Components/Form/SelectMultiple';
 import useFetchSampleStatusList from '@/scripts/Hooks/Mst/useFetchSampleStatusList';
+import VirtualSelectBox, {
+  VirtualSelectItem,
+} from '@/scripts/Components/Form/VirtualSelectBox';
+import VirtualSelectMultiple from '@/scripts/Components/Form/VirtualSelectMultiple';
 
 interface TrnSampleChild {
   id: number;
@@ -112,9 +114,11 @@ const SampleCommonForm = memo(
             </Stack>
             <Stack spacing={0.5}>
               <FormTitle title={'ステータス'} />
-              <SelectBox
+              <VirtualSelectBox
                 value={form.statusId}
-                selectItemList={mstSampleStatusList}
+                selectItemList={
+                  mstSampleStatusList as unknown as VirtualSelectItem[]
+                }
                 handleChange={(value) => handleFormChange({ statusId: value })}
                 errorMessageList={errorList?.status_id ?? []}
               />
@@ -133,7 +137,7 @@ const SampleCommonForm = memo(
                 spacing={0.5}
                 direction={'row'}
               >
-                <SelectMultiple
+                <VirtualSelectMultiple
                   sx={{ width: '100%' }}
                   valueList={form.childIdList}
                   selectItemList={trnSampleChildList}
