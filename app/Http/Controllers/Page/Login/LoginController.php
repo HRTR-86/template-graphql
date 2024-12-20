@@ -9,6 +9,7 @@ use App\Service\Login\LoginService;
 use App\Usecases\Login\LoginInput;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 use Laravel\Socialite\Facades\Socialite;
@@ -27,6 +28,7 @@ class LoginController extends Controller
      * Google認証画面にリダイレクトする
      * @param Request $request
      * @return RedirectResponse|Response
+     * @throws ValidationException
      */
     public function __invoke(Request $request): RedirectResponse|Response
     {
@@ -46,6 +48,7 @@ class LoginController extends Controller
     /**
      * @param LoginRequest $request
      * @return RedirectResponse|Response
+     * @throws ValidationException
      */
     public function login(LoginRequest $request): RedirectResponse|Response
     {
@@ -58,7 +61,7 @@ class LoginController extends Controller
 
         } catch (Exception $e) {
             return back()->withErrors(
-                $this->getError(ErrorCode::LO9904, $e)
+                $this->getError(ErrorCode::LO9904, $e),
             );
         }
     }

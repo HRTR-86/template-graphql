@@ -7,6 +7,7 @@ use App\Usecases\Login\LoginInput;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class LoginService
 {
@@ -20,13 +21,16 @@ class LoginService
     {
         $authUser = AuthUserRepository::findByEmail($input->email);
 
-        // TODO: 専用の例外クラスを作成する
         if (is_null($authUser)) {
-            throw new Exception('ユーザが存在しません');
+            throw ValidationException::withMessages([
+                'email' => '指定されたメールアドレスは登録されていません',
+            ]);
         }
 
         if (! Hash::check($input->password, $authUser->password)) {
-            throw new Exception('パスワードが一致しません');
+            throw ValidationException::withMessages([
+                'password' => '登録済みのパスワードと一致しません',
+            ]);
         }
 
         Auth::login($authUser);
