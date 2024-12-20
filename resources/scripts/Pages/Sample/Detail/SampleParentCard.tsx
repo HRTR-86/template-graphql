@@ -3,6 +3,7 @@ import { Errors } from '@inertiajs/core/types/types';
 import { format } from '@/scripts/Common/Datetime';
 import { getColor } from '@/scripts/Enum/Mst/SampleStatus';
 import KebabMenu from '@/scripts/Components/KebabMenu';
+import { MstSampleStatusModel } from '@/scripts/Hooks/Mst/useFetchSampleStatusList';
 import { parseErrorProps } from '@/scripts/Parser/Common/parseErrorProps';
 import { Permission } from '@/scripts/Enum/Mst/Permission';
 import { PropsBase } from '@/scripts/Common/System';
@@ -12,11 +13,10 @@ import { useAuthUserContext } from '@/scripts/Provider/AuthUserProvider';
 import { useErrorContext } from '@/scripts/Provider/ErrorProvider';
 import { useMemo } from 'react';
 import usePostDeleteEvent from '@/scripts/Hooks/Sample/usePostDeleteSample';
-import { Response } from '@/scripts/Hooks/Mst/useFetchSampleStatusList';
 
 interface Props extends PropsBase {
   trnSampleParent: TrnSampleParent;
-  mstSampleStatus: Response;
+  mstSampleStatus: MstSampleStatusModel;
 }
 
 const SampleParentCard = ({ trnSampleParent, mstSampleStatus }: Props) => {

@@ -20,15 +20,11 @@ import {
 import Display from '@/scripts/Components/Display/Display';
 import { FixedSizeList, ListChildComponentProps } from 'react-window';
 import { PropsBase } from '@/scripts/Common/System';
-
-export interface VirtualSelectItem {
-  name: string;
-  id: string;
-}
+import { SelectItem } from '@/scripts/Components/Form/SelectBox';
 
 interface Props extends PropsBase {
   value: number;
-  selectItemList: VirtualSelectItem[];
+  selectItemList: SelectItem[];
   disabled?: boolean;
   handleChange: (value: any) => void;
 }
@@ -97,13 +93,13 @@ const VirtualSelectBox = ({
             {'ー 値を選択してください ー'}
           </MenuItem>
         }
-        {selectItemList?.map((item: VirtualSelectItem) => {
+        {selectItemList?.map((item: SelectItem) => {
           return (
             <MenuItem
-              key={item.id}
-              value={item.id}
+              key={item.value}
+              value={item.value}
             >
-              {item.name}
+              {item.label}
             </MenuItem>
           );
         })}

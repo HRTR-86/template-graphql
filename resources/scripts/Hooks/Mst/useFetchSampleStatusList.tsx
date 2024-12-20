@@ -6,12 +6,12 @@ import {
 import { useEffect, useState } from 'react';
 import { useLoadingContext } from '@/scripts/Provider/LoadingProvider';
 
-export interface Response {
+export interface MstSampleStatusModel {
   findById: (id: number) => MstSampleStatus | undefined;
   list: () => MstSampleStatus[];
 }
 
-const useFetchSampleStatusList = (): Response => {
+const useFetchSampleStatusList = (): MstSampleStatusModel => {
   const [MstSampleStatusList, setMstSampleStatusList] = useState<
     MstSampleStatus[]
   >([]);
@@ -25,7 +25,7 @@ const useFetchSampleStatusList = (): Response => {
   /**
    * データを取得する
    */
-  async function fetch(): Promise<void> {
+  const fetch = async (): Promise<void> => {
     loadingContext.handleStart();
 
     try {
@@ -40,24 +40,24 @@ const useFetchSampleStatusList = (): Response => {
     }
 
     loadingContext.handleFinish();
-  }
+  };
 
   /**
    * id指定でデータを取得する
    * @param id
    */
-  function findById(id: number): MstSampleStatus | undefined {
+  const findById = (id: number): MstSampleStatus | undefined => {
     return MstSampleStatusList.find(
       (MstSampleStatus: MstSampleStatus) => MstSampleStatus.id === id,
     );
-  }
+  };
 
   /**
    * 一覧を取得する
    */
-  function list(): MstSampleStatus[] {
+  const list = (): MstSampleStatus[] => {
     return MstSampleStatusList;
-  }
+  };
 
   return {
     findById,

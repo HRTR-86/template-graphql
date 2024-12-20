@@ -54,9 +54,7 @@ class LoginController extends Controller
             $input      = new LoginInput($parameters);
             $this->loginService->handle($input);
 
-            return Inertia::render(
-                'Home/HomeIndex',
-            );
+            return redirect()->route('home');
 
         } catch (Exception $e) {
             return back()->withErrors(

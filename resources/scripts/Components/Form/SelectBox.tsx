@@ -10,9 +10,9 @@ import {
 import { memo } from 'react';
 import { PropsBase } from '@/scripts/Common/System';
 
-interface SelectItem {
-  id: number;
-  name: string;
+export interface SelectItem {
+  value: number;
+  label: string;
 }
 
 interface Props extends PropsBase {
@@ -76,10 +76,10 @@ const SelectBox = memo(
           {selectItemList?.map((item: SelectItem) => {
             return (
               <MenuItem
-                key={item.id}
-                value={item.id}
+                key={item.value}
+                value={item.value}
               >
-                {item.name}
+                {item.label}
               </MenuItem>
             );
           })}

@@ -6,12 +6,12 @@ import {
 import { useEffect, useState } from 'react';
 import { useLoadingContext } from '@/scripts/Provider/LoadingProvider';
 
-interface Response {
+interface MstRoleModel {
   findById: (id: number) => MstRole | undefined;
   list: () => MstRole[];
 }
 
-const useFetchRoleList = (): Response => {
+const useFetchRoleList = (): MstRoleModel => {
   const [mstRoleList, setMstRoleList] = useState<MstRole[]>([]);
 
   const loadingContext = useLoadingContext();
@@ -23,7 +23,7 @@ const useFetchRoleList = (): Response => {
   /**
    * データを取得する
    */
-  async function fetch(): Promise<void> {
+  const fetch = async (): Promise<void> => {
     loadingContext.handleStart();
 
     try {
@@ -38,22 +38,22 @@ const useFetchRoleList = (): Response => {
     }
 
     loadingContext.handleFinish();
-  }
+  };
 
   /**
    * id指定でデータを取得する
    * @param id
    */
-  function findById(id: number): MstRole | undefined {
+  const findById = (id: number): MstRole | undefined => {
     return mstRoleList.find((mstRole: MstRole) => mstRole.id === id);
-  }
+  };
 
   /**
    * 一覧を取得する
    */
-  function list(): MstRole[] {
+  const list = (): MstRole[] => {
     return mstRoleList;
-  }
+  };
 
   return {
     findById,

@@ -6,6 +6,7 @@ import { PropsBase } from '@/scripts/Common/System';
 import SelectBox from '@/scripts/Components/Form/SelectBox';
 import { TrnUserRole } from '@/scripts/Parser/Profile/parseProfileProps';
 import useFetchRoleList from '@/scripts/Hooks/Mst/useFetchRoleList';
+import useModelListToSelectItemList from '@/scripts/Hooks/Common/useConstantsToSelectItems';
 
 export interface Form {
   userName: string;
@@ -30,6 +31,9 @@ const ProfileForm = memo(
         .list()
         .filter((mstRole) => roleIdList.includes(mstRole.id));
     }, [mstRole.list(), trnUserRoleList]);
+
+    const { selectItemList: selectItemListByMstRole } =
+      useModelListToSelectItemList(mstRoleList);
 
     return (
       <Paper
@@ -63,7 +67,7 @@ const ProfileForm = memo(
             <FormTitle title={'権限'} />
             <SelectBox
               value={form.roleId}
-              selectItemList={mstRoleList}
+              selectItemList={selectItemListByMstRole}
               handleChange={(value) => handleFormChange({ roleId: value })}
               errorMessageList={errorList?.role_id ?? []}
             />

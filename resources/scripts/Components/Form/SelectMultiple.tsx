@@ -9,10 +9,11 @@ import {
 import Display from '@/scripts/Components/Display/Display';
 import { memo } from 'react';
 import { PropsBase } from '@/scripts/Common/System';
+import { SelectItem } from '@/scripts/Components/Form/SelectBox';
 
 interface Props extends PropsBase {
   valueList: number[];
-  selectItemList: any[];
+  selectItemList: SelectItem[];
   handleChange: (value: any) => void;
 }
 
@@ -28,11 +29,11 @@ const SelectMultiple = memo(
 
     const isError = errorMessageList?.length > 0;
 
-    const optionList: number[] = selectItemList.map((item) => item.id);
+    const optionList: number[] = selectItemList.map((item) => item.value);
 
-    const getLabel = (id: number) => {
-      const item = selectItemList.find((item) => item.id === id);
-      return item ? item.name : '';
+    const getLabel = (value: number) => {
+      const item = selectItemList.find((item) => item.value === value);
+      return item ? item.label : '';
     };
 
     return (

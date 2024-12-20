@@ -1,14 +1,14 @@
 import { Card, Chip, Stack, Typography } from '@mui/material';
 import { format } from '@/scripts/Common/Datetime';
 import { getColor } from '@/scripts/Enum/Mst/SampleStatus';
+import { MstSampleStatusModel } from '@/scripts/Hooks/Mst/useFetchSampleStatusList';
 import { PropsBase } from '@/scripts/Common/System';
 import { router } from '@inertiajs/react';
 import { TrnSampleParent } from '@/scripts/Parser/Home/parseHomeProps';
-import { Response } from '@/scripts/Hooks/Mst/useFetchSampleStatusList';
 
 interface Props extends PropsBase {
   trnSampleParent: TrnSampleParent;
-  mstSampleStatus: Response;
+  mstSampleStatus: MstSampleStatusModel;
 }
 
 const SampleParentCard = ({ trnSampleParent, mstSampleStatus }: Props) => {

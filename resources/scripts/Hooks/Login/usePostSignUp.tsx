@@ -37,7 +37,10 @@ const usePostSignUp = () => {
       },
       {
         only: only,
-        onStart: loadingContext.handleStart,
+        onStart: () => {
+          setErrors([] as never);
+          loadingContext.handleStart();
+        },
         onFinish: loadingContext.handleFinish,
         onSuccess: (page: Page) => handleSuccess(page),
         onError: (errors: Errors) => {

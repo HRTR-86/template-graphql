@@ -32,7 +32,10 @@ const SampleChildCreateModal = ({
     },
   ]);
 
-  const handleAdd = () => {
+  /**
+   * 入力フォームを追加する
+   */
+  const handleAddForm = () => {
     setForm([...form, { name: '' }]);
   };
 
@@ -108,8 +111,8 @@ const SampleChildCreateModal = ({
         })}
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <IconButton>
-          <AddIcon onClick={handleAdd} />
+        <IconButton onClick={handleAddForm}>
+          <AddIcon />
         </IconButton>
       </Box>
       <Box

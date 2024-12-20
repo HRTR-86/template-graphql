@@ -4,7 +4,7 @@ import { Dayjs } from 'dayjs';
 import { FormTitle } from '@/scripts/Components/Display/FormTitle';
 import InputDateWithTime from '@/scripts/Components/Form/InputDateWithTime';
 import InputField from '@/scripts/Components/Form/InputField';
-import { memo, useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import Modal from '@/scripts/Components/Modal';
 import { Paper, Stack, Typography, useTheme } from '@mui/material';
 import { parseErrorMessageList } from '@/scripts/Validation/Validation';
@@ -12,9 +12,8 @@ import { PostCreateSampleChildParameter } from '@/scripts/Hooks/Sample/usePostCr
 import { PropsBase } from '@/scripts/Common/System';
 import SampleChildCreateModal from '@/scripts/Modals/Sample/SampleChildCreateModal';
 import useFetchSampleStatusList from '@/scripts/Hooks/Mst/useFetchSampleStatusList';
-import VirtualSelectBox, {
-  VirtualSelectItem,
-} from '@/scripts/Components/Form/VirtualSelectBox';
+import useModelListToSelectItemList from '@/scripts/Hooks/Common/useConstantsToSelectItems';
+import VirtualSelectBox from '@/scripts/Components/Form/VirtualSelectBox';
 import VirtualSelectMultiple from '@/scripts/Components/Form/VirtualSelectMultiple';
 
 interface TrnSampleChild {
@@ -60,10 +59,10 @@ const SampleCommonForm = memo(
 
     const mstSampleStatus = useFetchSampleStatusList();
 
-    const mstSampleStatusList = useMemo(
-      () => mstSampleStatus.list(),
-      [mstSampleStatus],
-    );
+    const { selectItemList: selectItemListByTrnSampleChild } =
+      useModelListToSelectItemList(trnSampleChildList);
+    const { selectItemList: selectItemListByMstSampleStatus } =
+      useModelListToSelectItemList(mstSampleStatus.list());
 
     const handleCloseModal = useCallback(() => {
       setIsOpenModal(false);
@@ -116,9 +115,7 @@ const SampleCommonForm = memo(
               <FormTitle title={'ステータス'} />
               <VirtualSelectBox
                 value={form.statusId}
-                selectItemList={
-                  mstSampleStatusList as unknown as VirtualSelectItem[]
-                }
+                selectItemList={selectItemListByMstSampleStatus}
                 handleChange={(value) => handleFormChange({ statusId: value })}
                 errorMessageList={errorList?.status_id ?? []}
               />
@@ -140,7 +137,7 @@ const SampleCommonForm = memo(
                 <VirtualSelectMultiple
                   sx={{ width: '100%' }}
                   valueList={form.childIdList}
-                  selectItemList={trnSampleChildList}
+                  selectItemList={selectItemListByTrnSampleChild}
                   handleChange={(valueList) =>
                     handleFormChange({ childIdList: valueList })
                   }
