@@ -19,7 +19,7 @@ class SampleChildCreateService
     {
         $this->createSampleChild($input);
 
-        return new SampleChildCreateOutput();
+        return new SampleChildCreateOutput;
     }
 
     /**
@@ -31,7 +31,7 @@ class SampleChildCreateService
     private function createSampleChild(SampleChildCreateInput $input): void
     {
         $input->childList->each(function (ChildObject $child) use ($input) {
-            $trnSampleChild = new TrnSampleChild();
+            $trnSampleChild = new TrnSampleChild;
 
             $trnSampleChild->name       = $child->name;
             $trnSampleChild->created_by = $input->operationUserId;

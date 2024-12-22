@@ -21,6 +21,7 @@ yarn-error.log
 /db
 .DS_Store
 /redis_volumes/
+/minio_volumes/
 
 #  Local .terraform directories
 **/.terraform/*

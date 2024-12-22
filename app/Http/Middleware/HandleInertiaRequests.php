@@ -2,8 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Auth\AuthUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Middleware;
 
@@ -71,8 +73,27 @@ class HandleInertiaRequests extends Middleware
             'id'        => $authUser->id ?? 0,
             'name'      => $authUser->name ?? '',
             'email'     => $authUser->email ?? '',
-            'image_url' => $authUser->image_url ?? '',
+            'image_url' => $this->getImageUrl($authUser),
         ];
+    }
+
+    /**
+     * @param AuthUser|null $authUser
+     * @return string
+     */
+    private function getImageUrl(?AuthUser $authUser): string
+    {
+        if (is_null($authUser)) {
+            return '';
+        }
+
+        if ((bool) $authUser->image_url) {
+            return $authUser->image_url;
+        }
+
+        return Storage::disk('s3')->temporaryUrl(
+            'default_icon.jpg', now()->addHour()
+        );
     }
 
     /**

@@ -33,7 +33,7 @@ class SignUpService
      */
     private function createUser(SignUpInput $input): AuthUser
     {
-        $authUser = new AuthUser();
+        $authUser = new AuthUser;
 
         $authUser->name      = $input->name;
         $authUser->email     = $input->email;
@@ -52,7 +52,7 @@ class SignUpService
      */
     private function createRole(AuthUser $authUser): void
     {
-        $trnUserRole = new TrnUserRole();
+        $trnUserRole = new TrnUserRole;
 
         $trnUserRole->user_id    = $authUser->id;
         $trnUserRole->role_id    = Role::GENERAL_USER;

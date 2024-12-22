@@ -21,7 +21,7 @@ class ProfileEditService
         $this->resetRole($input);
         $this->updateCurrentRole($input);
 
-        return new ProfileEditOutput();
+        return new ProfileEditOutput;
     }
 
     /**

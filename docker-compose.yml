@@ -32,10 +32,24 @@ services:
     platform: linux/x86_64
 
   redis:
-      container_name: template_redis
-      image: redis:7.0
-      ports:
-          - "6400:6379"
-      volumes:
-          - ./redis_volumes:/data
-      platform: linux/x86_64
+    container_name: template_redis
+    image: redis:7.0
+    ports:
+        - "6400:6379"
+    volumes:
+        - ./redis_volumes:/redis/data
+    platform: linux/x86_64
+
+  minio:
+    container_name: template_minio
+    image: minio/minio:RELEASE.2024-11-07T00-52-20Z
+    environment:
+        - MINIO_ROOT_USER=${AWS_ACCESS_KEY_ID}
+        - MINIO_ROOT_PASSWORD=${AWS_SECRET_ACCESS_KEY}
+    ports:
+        - "9010:9010"
+        - "9011:9011"
+    volumes:
+        - ./minio_volumes:/minio/data
+    command: server --address ":9010" --console-address ":9011" /minio/data
+    platform: linux/x86_64

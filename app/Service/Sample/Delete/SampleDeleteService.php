@@ -22,7 +22,7 @@ class SampleDeleteService
 
         $this->deleteTrnSampleRelationList($input);
 
-        return new SampleDeleteOutput();
+        return new SampleDeleteOutput;
     }
 
     /**

@@ -42,7 +42,7 @@ class GoogleLoginService
      */
     private function createUser(User $socialiteUser): AuthUser
     {
-        $trnUser = new AuthUser();
+        $trnUser = new AuthUser;
 
         $trnUser->name      = $socialiteUser->getName();
         $trnUser->email     = $socialiteUser->getEmail();
@@ -61,7 +61,7 @@ class GoogleLoginService
      */
     private function createRole(AuthUser $authUser): void
     {
-        $trnUserRole = new TrnUserRole();
+        $trnUserRole = new TrnUserRole;
 
         $trnUserRole->user_id    = $authUser->id;
         $trnUserRole->role_id    = Role::GENERAL_USER;

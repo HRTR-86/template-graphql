@@ -84,7 +84,7 @@ class SampleEditService
         SampleEditInput $input,
         int $childId,
     ): void {
-        $trnSampleRelation = new TrnSampleRelation();
+        $trnSampleRelation = new TrnSampleRelation;
 
         $trnSampleRelation->parent_id  = $input->parentId;
         $trnSampleRelation->child_id   = $childId;

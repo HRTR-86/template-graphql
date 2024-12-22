@@ -32,7 +32,7 @@ class SampleCreateService
      */
     private function createSampleParent(SampleCreateInput $input): TrnSampleParent
     {
-        $trnSampleParent = new TrnSampleParent();
+        $trnSampleParent = new TrnSampleParent;
 
         $trnSampleParent->name       = $input->parentName;
         $trnSampleParent->status_id  = $input->statusId;
@@ -73,7 +73,7 @@ class SampleCreateService
         int $parentId,
         int $childId,
     ): void {
-        $trnSampleRelation = new TrnSampleRelation();
+        $trnSampleRelation = new TrnSampleRelation;
 
         $trnSampleRelation->parent_id  = $parentId;
         $trnSampleRelation->child_id   = $childId;
