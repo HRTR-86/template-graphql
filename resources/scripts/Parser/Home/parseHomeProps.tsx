@@ -15,7 +15,7 @@ interface Flash {
   message: string;
 }
 
-interface OutputHomeProps {
+export interface OutputHomeProps {
   trnSampleParentList: TrnSampleParent[];
   flash: Flash;
 }
@@ -23,7 +23,7 @@ interface OutputHomeProps {
 export const parseHomeProps = (props: any): OutputHomeProps => {
   return {
     trnSampleParentList:
-      props.trn_sample_parent_list?.map((trnSampleParent: any) => {
+      props?.trn_sample_parent_list?.map((trnSampleParent: any) => {
         return {
           id: Number(trnSampleParent.id ?? 0),
           name: String(trnSampleParent.name ?? ''),
@@ -41,7 +41,7 @@ export const parseHomeProps = (props: any): OutputHomeProps => {
         };
       }) ?? [],
     flash: {
-      message: props.flash?.message ?? '',
+      message: props?.flash?.message ?? '',
     },
   };
 };

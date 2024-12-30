@@ -3,6 +3,7 @@ export type AuthUser = {
   name: string;
   email: string;
   imageUrl: string;
+  accessToken: string;
 };
 
 type OutputAuthUserProps = {
@@ -17,6 +18,7 @@ export const parseAuthUserProps = (props: any): OutputAuthUserProps => {
       name: String(props.auth_user?.name ?? ''),
       email: String(props.auth_user?.email ?? ''),
       imageUrl: String(props.auth_user?.image_url ?? ''),
+      accessToken: String(props.auth_user?.access_token ?? ''),
     },
     permissionList: props?.permission_list?.map((id: any) => Number(id)) ?? [],
   };

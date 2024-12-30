@@ -31,6 +31,8 @@ class GoogleLoginService
             $authUser = $this->updateUser($socialiteUser, $authUser);
         }
 
+        $this->updateAccessToken($authUser);
+
         Auth::login($authUser);
     }
 
@@ -51,6 +53,22 @@ class GoogleLoginService
         $trnUser->saveOrFail();
 
         return $trnUser;
+    }
+
+    /**
+     * ユーザーのアクセストークンを更新する
+     * @param AuthUser $authUser
+     * @return void
+     * @throws Throwable
+     */
+    private function updateAccessToken(AuthUser $authUser): void
+    {
+        $authUser->tokens()->delete();
+        $token = $authUser->createToken('api_token');
+
+        $authUser->access_token = $token;
+
+        $authUser->saveOrFail();
     }
 
     /**

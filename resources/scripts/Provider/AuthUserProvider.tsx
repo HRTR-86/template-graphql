@@ -17,6 +17,7 @@ const AuthUserContext = createContext<AuthUserContext>({
     name: '',
     email: '',
     imageUrl: '',
+    accessToken: '',
   },
   permissionList: [],
   hasPermission: () => false,

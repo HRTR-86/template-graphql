@@ -34,6 +34,10 @@ return new class extends Migration
                 ->default('')
                 ->comment('プロフィール画像URL');
 
+            $table->text('access_token')
+                ->nullable()
+                ->comment('アクセストークン');
+
             $table->boolean('is_unique_target')
                 ->virtualAs('IF(deleted_at IS NULL, 1, NULL)')
                 ->comment('ユニーク制約の対象であるか');

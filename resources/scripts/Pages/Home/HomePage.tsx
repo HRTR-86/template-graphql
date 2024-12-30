@@ -2,17 +2,18 @@ import AddIcon from '@mui/icons-material/Add';
 import Display from '@/scripts/Components/Display/Display';
 import FloatButton from '@/scripts/Components/Button/FloatButton';
 import PageBase from '@/scripts/Pages/PageBase';
-import { parseHomeProps } from '@/scripts/Parser/Home/parseHomeProps';
 import { Permission } from '@/scripts/Enum/Mst/Permission';
 import SampleParentCard from '@/scripts/Pages/Home/SampleParentCard';
 import { Stack, Typography } from '@mui/material';
+import { TrnSampleParent } from '@/scripts/Parser/Home/parseHomeProps';
 import { useAuthUserContext } from '@/scripts/Provider/AuthUserProvider';
 import { useEffect } from 'react';
+import useFetchHome from '@/scripts/Hooks/Home/useFetchHome';
 import useFetchSampleStatusList from '@/scripts/Hooks/Mst/useFetchSampleStatusList';
 import { useSnackbarContext } from '@/scripts/Provider/SnackbarProvider';
 
-const HomePage = (props: any) => {
-  const { trnSampleParentList, flash } = parseHomeProps(props);
+const HomePage = () => {
+  const { data } = useFetchHome(true);
 
   const authUserContext = useAuthUserContext();
   const snackbarContext = useSnackbarContext();
@@ -20,14 +21,14 @@ const HomePage = (props: any) => {
   const mstSampleStatus = useFetchSampleStatusList();
 
   useEffect(() => {
-    if (!flash.message || !!snackbarContext.snackbar.message) {
+    if (!data?.flash.message || !!snackbarContext.snackbar.message) {
       return;
     }
 
     snackbarContext.handleChange({
-      message: flash.message,
+      message: data?.flash.message,
     });
-  }, [flash.message]);
+  }, [data?.flash.message]);
 
   return (
     <PageBase sx={{ padding: '16px 30%' }}>
@@ -41,7 +42,7 @@ const HomePage = (props: any) => {
         ホーム画面のサンプル
       </Typography>
       <Stack spacing={2}>
-        {trnSampleParentList.map((trnSampleParent: any) => (
+        {data.trnSampleParentList.map((trnSampleParent: TrnSampleParent) => (
           <SampleParentCard
             key={trnSampleParent.id}
             trnSampleParent={trnSampleParent}

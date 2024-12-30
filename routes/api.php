@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 
+use App\Http\Controllers\Api\Home\HomeController;
 use App\Http\Controllers\Api\Mst\RoleListController;
 use App\Http\Controllers\Api\Mst\SampleStatusListController;
 use Illuminate\Support\Facades\Route;
@@ -15,9 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
+Route::get('/home', HomeController::class)->middleware('auth:sanctum');
 
 Route::get('/role/list', RoleListController::class);
 
