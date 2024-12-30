@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-docker exec template_web npm run prettier
-docker exec template_web npm run eslint
-docker exec template_web ./vendor/bin/pint
+docker exec template-graphql-web npm run prettier
+docker exec template-graphql-web npm run eslint
+docker exec template-graphql-web ./vendor/bin/pint
 git add .

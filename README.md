@@ -21,7 +21,7 @@ $ docker compose -f docker-compose-for-intel.yml up -d
 ## 3. 各種インストール
 以下のコマンドを実行する
 ```
-$ docker exec -it template_web bash
+$ docker exec -it template-graphql-web bash
 # composer install
 # npm install
 ```
