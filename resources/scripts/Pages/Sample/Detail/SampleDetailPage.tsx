@@ -2,17 +2,21 @@ import BasicButton from '@/scripts/Components/Button/BasicButton';
 import { Box, Typography } from '@mui/material';
 import { ButtonType } from '@/scripts/Enum/ButtonType';
 import PageBase from '@/scripts/Pages/PageBase';
-import { parseSampleDetailProps } from '@/scripts/Parser/Sample/Detail/parseSampleDetailProps';
 import { Permission } from '@/scripts/Enum/Mst/Permission';
 import SampleParentCard from '@/scripts/Pages/Sample/Detail/SampleParentCard';
 import { useAuthUserContext } from '@/scripts/Provider/AuthUserProvider';
 import { useEffect } from 'react';
+import useFetchSampleDetail from '@/scripts/Hooks/Sample/useFetchSampleDetail';
 import useFetchSampleStatusList from '@/scripts/Hooks/Mst/useFetchSampleStatusList';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSnackbarContext } from '@/scripts/Provider/SnackbarProvider';
 
-const SampleDetailPage = (props: any) => {
-  const { trnSampleParent, flash } = parseSampleDetailProps(props);
+const SampleDetailPage = () => {
+  const params = useParams();
+
+  const { data } = useFetchSampleDetail(true, {
+    parentId: Number(params?.parentId ?? 0),
+  });
 
   const authUserContext = useAuthUserContext();
   const snackbarContext = useSnackbarContext();
@@ -21,14 +25,14 @@ const SampleDetailPage = (props: any) => {
   const mstSampleStatus = useFetchSampleStatusList();
 
   useEffect(() => {
-    if (!flash.message || !!snackbarContext.snackbar.message) {
+    if (!data.flash.message || !!snackbarContext.snackbar.message) {
       return;
     }
 
     snackbarContext.handleChange({
-      message: flash.message,
+      message: data.flash.message,
     });
-  }, [flash.message]);
+  }, [data.flash.message]);
 
   /**
    * ホーム画面に戻る
@@ -37,7 +41,7 @@ const SampleDetailPage = (props: any) => {
     navigate(-1);
   };
 
-  if (trnSampleParent.id === 0) {
+  if (data.trnSampleParent.id === 0) {
     return (
       <PageBase
         sx={{ padding: '16px 30%' }}
@@ -76,7 +80,7 @@ const SampleDetailPage = (props: any) => {
         />
       </Box>
       <SampleParentCard
-        trnSampleParent={trnSampleParent}
+        trnSampleParent={data.trnSampleParent}
         mstSampleStatus={mstSampleStatus}
       />
     </PageBase>

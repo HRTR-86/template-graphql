@@ -6,12 +6,11 @@ use App\Enums\Common\ErrorCode;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Profile\ProfileEditRequest;
 use App\Service\Profile\ProfileEditService;
-use App\Service\Profile\ProfileInitialService;
 use App\Usecases\Profile\ProfileEditInput;
-use Auth;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -20,11 +19,9 @@ use Throwable;
 class ProfileController extends Controller
 {
     /**
-     * @param ProfileInitialService $profileInitialService
      * @param ProfileEditService $profileEditService
      */
     public function __construct(
-        private readonly ProfileInitialService $profileInitialService,
         private readonly ProfileEditService $profileEditService,
     ) {}
 
@@ -34,24 +31,7 @@ class ProfileController extends Controller
      */
     public function __invoke(Request $request): Response
     {
-        try {
-            if (! Auth::check()) {
-                throw new Exception('未認証のためアクセスできません');
-            }
-
-            $output = $this->profileInitialService->handle();
-
-            return Inertia::render(
-                'Profile/ProfileIndex',
-                $output->getOutput(),
-            );
-
-        } catch (Exception  $e) {
-            return Inertia::render(
-                'Error/ErrorIndex',
-                $this->getError(ErrorCode::PR0101, $e),
-            );
-        }
+        return Inertia::render('Profile/ProfileIndex');
     }
 
     /**
@@ -76,7 +56,7 @@ class ProfileController extends Controller
             return redirect()->route('profile')
                 ->with('flash', $output->getFlash());
 
-        } catch (Exception  $e) {
+        } catch (Exception $e) {
             return back()->withErrors(
                 $this->getError(ErrorCode::PR1101, $e)
             );

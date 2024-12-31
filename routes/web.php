@@ -28,6 +28,7 @@ Route::post('/logout', LogoutController::class);
 
 // 認証が必要なページ
 Route::middleware(['auth:web'])->group(function () {
+    // TODO: POST処理も置き換える
     Route::get('/home', HomeController::class)->name('home');
     Route::post('/home/participant-status/update', [HomeController::class, 'updateParticipantStatus']);
 

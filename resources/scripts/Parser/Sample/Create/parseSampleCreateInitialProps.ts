@@ -6,12 +6,14 @@ type TrnSampleChild = {
   name: string;
 };
 
-type OutputSampleDetailProps = {
+export type OutputSampleCreateInitialProps = {
   trnSampleChildList: TrnSampleChild[];
   errorList: ErrorList;
 };
 
-export const parseSampleCreateProps = (props: any): OutputSampleDetailProps => {
+export const parseSampleCreateInitialProps = (
+  props: any,
+): OutputSampleCreateInitialProps => {
   return {
     trnSampleChildList:
       props?.trn_sample_child_list.map((trnSampleChild: any) => {
@@ -20,6 +22,6 @@ export const parseSampleCreateProps = (props: any): OutputSampleDetailProps => {
           name: String(trnSampleChild.name ?? ''),
         };
       }) ?? [],
-    errorList: parseErrors(props?.errors),
+    errorList: parseErrors(props?.errors ?? {}),
   };
 };

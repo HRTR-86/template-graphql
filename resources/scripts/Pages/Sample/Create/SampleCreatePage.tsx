@@ -4,7 +4,6 @@ import { ButtonType } from '@/scripts/Enum/ButtonType';
 import { Errors } from '@inertiajs/core/types/types';
 import PageBase from '@/scripts/Pages/PageBase';
 import { parseErrorProps } from '@/scripts/Parser/Common/parseErrorProps';
-import { parseSampleCreateProps } from '@/scripts/Parser/Sample/Create/parseSampleCreateProps';
 import SampleCommonForm, {
   defaultFormValue,
   Form,
@@ -14,9 +13,10 @@ import { useErrorContext } from '@/scripts/Provider/ErrorProvider';
 import { useNavigate } from 'react-router-dom';
 import usePostCreateSample from '@/scripts/Hooks/Sample/usePostCreateSample';
 import usePostCreateSampleChild from '@/scripts/Hooks/Sample/usePostCreateSampleChild';
+import useFetchSampleCreateInitial from '@/scripts/Hooks/Sample/useFetchSampleCreateInitial';
 
-const SampleCreatePage = (props: any) => {
-  const { trnSampleChildList, errorList } = parseSampleCreateProps(props);
+const SampleCreatePage = () => {
+  const { data } = useFetchSampleCreateInitial(true);
 
   const errorContext = useErrorContext();
   const navigate = useNavigate();
@@ -115,8 +115,8 @@ const SampleCreatePage = (props: any) => {
       <SampleCommonForm
         sx={{ margin: '16px 0' }}
         form={form}
-        trnSampleChildList={trnSampleChildList}
-        errorList={errorList}
+        trnSampleChildList={data.trnSampleChildList}
+        errorList={data.errorList}
         handleFormChange={handleFormChange}
         postCreateSampleChild={postCreateSampleChild}
       />

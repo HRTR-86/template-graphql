@@ -10,14 +10,14 @@ interface Flash {
   message: string;
 }
 
-interface OutputHomeProps {
+export interface OutputProfileProps {
   trnUserRole: TrnUserRole;
   trnUserRoleList: TrnUserRole[];
   flash: Flash;
   errorList: ErrorList;
 }
 
-export const parseProfileProps = (props: any): OutputHomeProps => {
+export const parseProfileProps = (props: any): OutputProfileProps => {
   return {
     trnUserRole: {
       roleId: props?.trn_user_role?.role_id ?? 0,
@@ -31,6 +31,6 @@ export const parseProfileProps = (props: any): OutputHomeProps => {
     flash: {
       message: props?.flash?.message ?? '',
     },
-    errorList: parseErrors(props?.errors),
+    errorList: parseErrors(props?.errors ?? {}),
   };
 };

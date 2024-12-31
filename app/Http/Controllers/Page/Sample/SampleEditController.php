@@ -6,17 +6,15 @@ use App\Enums\Common\ErrorCode;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Sample\SampleEditRequest;
 use App\Http\Requests\SampleChild\SampleChildCreateRequest;
-use App\Service\Sample\Edit\SampleEditInitialService;
 use App\Service\Sample\Edit\SampleEditService;
 use App\Service\SampleChild\SampleChildCreateService;
-use App\Usecases\Sample\Edit\SampleEditInitialInput;
 use App\Usecases\Sample\Edit\SampleEditInput;
 use App\Usecases\SampleChild\SampleChildCreateInput;
-use DB;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 use Throwable;
@@ -24,12 +22,10 @@ use Throwable;
 class SampleEditController extends Controller
 {
     /**
-     * @param SampleEditInitialService $sampleEditInitialService
      * @param SampleEditService $sampleEditService
      * @param SampleChildCreateService $sampleChildCreateService
      */
     public function __construct(
-        private readonly SampleEditInitialService $sampleEditInitialService,
         private readonly SampleEditService $sampleEditService,
         private readonly SampleChildCreateService $sampleChildCreateService,
     ) {}
@@ -43,14 +39,7 @@ class SampleEditController extends Controller
      */
     public function __invoke(Request $request): Response|RedirectResponse
     {
-        $parameters = array_merge($request->all(), $request->route()->parameters());
-        $input      = new SampleEditInitialInput($parameters);
-        $output     = $this->sampleEditInitialService->handle($input);
-
-        return Inertia::render(
-            'Sample/Edit/SampleEditIndex',
-            $output->getOutput(),
-        );
+        return Inertia::render('Index');
     }
 
     /**

@@ -15,13 +15,15 @@ type TrnSampleParent = {
   childIdList: number[];
 };
 
-type OutputSampleDetailProps = {
+export type OutputSampleEditInitialProps = {
   trnSampleParent: TrnSampleParent;
   trnSampleChildList: TrnSampleChild[];
   errorList: ErrorList;
 };
 
-export const parseSampleEditProps = (props: any): OutputSampleDetailProps => {
+export const parseSampleEditInitialProps = (
+  props: any,
+): OutputSampleEditInitialProps => {
   return {
     trnSampleParent: {
       id: Number(props?.trn_sample_parent?.id ?? 0),
@@ -44,6 +46,6 @@ export const parseSampleEditProps = (props: any): OutputSampleDetailProps => {
           name: String(trnSampleChild?.name ?? ''),
         };
       }) ?? [],
-    errorList: parseErrors(props?.errors),
+    errorList: parseErrors(props?.errors ?? {}),
   };
 };

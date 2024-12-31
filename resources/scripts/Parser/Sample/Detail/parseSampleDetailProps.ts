@@ -15,7 +15,7 @@ type Flash = {
   message: string;
 };
 
-type OutputSampleDetailProps = {
+export type OutputSampleDetailProps = {
   trnSampleParent: TrnSampleParent;
   flash: Flash;
 };
@@ -38,7 +38,7 @@ export const parseSampleDetailProps = (props: any): OutputSampleDetailProps => {
         ) ?? [],
     },
     flash: {
-      message: props.flash?.message ?? '',
+      message: props?.flash?.message ?? '',
     },
   };
 };

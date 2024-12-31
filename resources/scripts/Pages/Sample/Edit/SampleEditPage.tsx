@@ -4,39 +4,51 @@ import { ButtonType } from '@/scripts/Enum/ButtonType';
 import { Errors } from '@inertiajs/core/types/types';
 import PageBase from '@/scripts/Pages/PageBase';
 import { parseErrorProps } from '@/scripts/Parser/Common/parseErrorProps';
-import { parseSampleEditProps } from '@/scripts/Parser/Sample/Edit/parseSampleEditProps';
 import { Permission } from '@/scripts/Enum/Mst/Permission';
-import { router } from '@inertiajs/react';
 import SampleCommonForm, {
   defaultFormValue,
   Form,
 } from '@/scripts/Pages/Sample/SampleCommonForm';
 import { useAuthUserContext } from '@/scripts/Provider/AuthUserProvider';
 import { useErrorContext } from '@/scripts/Provider/ErrorProvider';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import usePostEditSample from '@/scripts/Hooks/Sample/usePostEditSample';
 import usePostCreateSampleChild from '@/scripts/Hooks/Sample/usePostCreateSampleChild';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import useFetchSampleEditInitial from '@/scripts/Hooks/Sample/useFetchSampleEditInitial';
 
-const SampleEditPage = (props: any) => {
-  const { trnSampleParent, trnSampleChildList, errorList } =
-    parseSampleEditProps(props);
+const SampleEditPage = () => {
+  const params = useParams();
+
+  const { data } = useFetchSampleEditInitial(true, {
+    parentId: Number(params?.parentId ?? 0),
+  });
 
   const authUserContext = useAuthUserContext();
   const errorContext = useErrorContext();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    setForm({
+      parentId: data.trnSampleParent.id,
+      parentName: data.trnSampleParent.name,
+      statusId: data.trnSampleParent.statusId,
+      datetime: data.trnSampleParent.datetime,
+      childIdList: data.trnSampleParent.childIdList,
+    });
+  }, [data.trnSampleParent]);
+
   const [form, setForm] = useState<Form>({
-    parentId: trnSampleParent.id,
-    parentName: trnSampleParent.name,
-    statusId: trnSampleParent.statusId,
-    datetime: trnSampleParent.datetime,
-    childIdList: trnSampleParent.childIdList,
+    parentId: data.trnSampleParent.id,
+    parentName: data.trnSampleParent.name,
+    statusId: data.trnSampleParent.statusId,
+    datetime: data.trnSampleParent.datetime,
+    childIdList: data.trnSampleParent.childIdList,
   });
 
   const { postEditSample } = usePostEditSample();
   const { postCreateSampleChild } = usePostCreateSampleChild(
-    `/sample/edit/${trnSampleParent.id}/child/create`,
+    `/sample/edit/${data.trnSampleParent.id}/child/create`,
   );
 
   /**
@@ -124,8 +136,8 @@ const SampleEditPage = (props: any) => {
       <SampleCommonForm
         sx={{ margin: '16px 0' }}
         form={form}
-        trnSampleChildList={trnSampleChildList}
-        errorList={errorList}
+        trnSampleChildList={data.trnSampleChildList}
+        errorList={data.errorList}
         handleFormChange={handleFormChange}
         postCreateSampleChild={postCreateSampleChild}
       />

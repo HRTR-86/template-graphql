@@ -4,17 +4,17 @@ import { ButtonType } from '@/scripts/Enum/ButtonType';
 import { Errors } from '@inertiajs/core/types/types';
 import PageBase from '@/scripts/Pages/PageBase';
 import { parseErrorProps } from '@/scripts/Parser/Common/parseErrorProps';
-import { parseProfileProps } from '@/scripts/Parser/Profile/parseProfileProps';
 import ProfileForm, { Form } from '@/scripts/Pages/Profile/ProfileForm';
 import { router } from '@inertiajs/react';
 import { useAuthUserContext } from '@/scripts/Provider/AuthUserProvider';
 import { useCallback, useEffect, useState } from 'react';
 import { useErrorContext } from '@/scripts/Provider/ErrorProvider';
+import useFetchProfile from '@/scripts/Hooks/Profile/useFetchProfile';
 import { useSnackbarContext } from '@/scripts/Provider/SnackbarProvider';
 import usePostEditProfile from '@/scripts/Hooks/Profile/usePostEditProfile';
 
-const HomePage = (props: any) => {
-  const { trnUserRoleList, flash, errorList } = parseProfileProps(props);
+const HomePage = () => {
+  const { data } = useFetchProfile(true);
 
   const authUserContext = useAuthUserContext();
   const snackbarContext = useSnackbarContext();
@@ -23,20 +23,21 @@ const HomePage = (props: any) => {
   const [form, setForm] = useState<Form>({
     userName: authUserContext.authUser.name,
     roleId:
-      trnUserRoleList.find((trnUserRole) => trnUserRole.isCurrent)?.roleId ?? 0,
+      data.trnUserRoleList.find((trnUserRole) => trnUserRole.isCurrent)
+        ?.roleId ?? 0,
   });
 
   const { postEditProfile } = usePostEditProfile();
 
   useEffect(() => {
-    if (!flash.message || !!snackbarContext.snackbar.message) {
+    if (!data.flash.message || !!snackbarContext.snackbar.message) {
       return;
     }
 
     snackbarContext.handleChange({
-      message: flash.message,
+      message: data.flash.message,
     });
-  }, [flash.message]);
+  }, [data.flash.message]);
 
   /**
    * 入力フォームを更新する
@@ -123,9 +124,9 @@ const HomePage = (props: any) => {
       </Box>
       <ProfileForm
         form={form}
-        trnUserRoleList={trnUserRoleList}
+        trnUserRoleList={data.trnUserRoleList}
         handleFormChange={handleFormChange}
-        errorList={errorList}
+        errorList={data.errorList}
       />
     </PageBase>
   );

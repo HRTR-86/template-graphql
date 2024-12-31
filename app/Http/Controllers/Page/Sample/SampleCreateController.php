@@ -6,7 +6,6 @@ use App\Enums\Common\ErrorCode;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Sample\SampleCreateRequest;
 use App\Http\Requests\SampleChild\SampleChildCreateRequest;
-use App\Service\Sample\Create\SampleCreateInitialService;
 use App\Service\Sample\Create\SampleCreateService;
 use App\Service\SampleChild\SampleChildCreateService;
 use App\Usecases\Sample\Create\SampleCreateInput;
@@ -23,12 +22,10 @@ use Throwable;
 class SampleCreateController extends Controller
 {
     /**
-     * @param SampleCreateInitialService $sampleCreateInitialService
      * @param SampleCreateService $sampleCreateService
      * @param SampleChildCreateService $sampleChildCreateService
      */
     public function __construct(
-        private readonly SampleCreateInitialService $sampleCreateInitialService,
         private readonly SampleCreateService $sampleCreateService,
         private readonly SampleChildCreateService $sampleChildCreateService,
     ) {}
@@ -41,12 +38,7 @@ class SampleCreateController extends Controller
      */
     public function __invoke(Request $request): Response|RedirectResponse
     {
-        $output = $this->sampleCreateInitialService->handle();
-
-        return Inertia::render(
-            'Sample/Create/SampleCreateIndex',
-            $output->getOutput(),
-        );
+        return Inertia::render('Sample/Create/SampleCreateIndex');
     }
 
     /**

@@ -1,5 +1,5 @@
 import { AppBar } from '@mui/material';
-import { Link } from '@inertiajs/react';
+import { Link } from 'react-router-dom';
 import Logo from './Logo';
 import UserMenu from './UserMenu';
 
@@ -19,7 +19,7 @@ const Header = () => {
       elevation={0}
     >
       <Link
-        href={'/home'}
+        to={'/home'}
         style={{ display: 'flex' }}
       >
         <Logo />
