@@ -12,10 +12,10 @@ import SampleCommonForm, {
 import { useAuthUserContext } from '@/scripts/Provider/AuthUserProvider';
 import { useErrorContext } from '@/scripts/Provider/ErrorProvider';
 import { useNavigate, useParams } from 'react-router-dom';
-import usePostEditSample from '@/scripts/Hooks/Sample/usePostEditSample';
-import usePostCreateSampleChild from '@/scripts/Hooks/Sample/usePostCreateSampleChild';
 import { useEffect, useState } from 'react';
 import useFetchSampleEditInitial from '@/scripts/Hooks/Sample/useFetchSampleEditInitial';
+import usePostSampleEdit from '@/scripts/Hooks/Sample/usePostSampleEdit';
+import usePostSampleChildCreate from '@/scripts/Hooks/Sample/usePostSampleChildCreate';
 
 const SampleEditPage = () => {
   const params = useParams();
@@ -46,10 +46,8 @@ const SampleEditPage = () => {
     childIdList: data.trnSampleParent.childIdList,
   });
 
-  const { postEditSample } = usePostEditSample();
-  const { postCreateSampleChild } = usePostCreateSampleChild(
-    `/sample/edit/${data.trnSampleParent.id}/child/create`,
-  );
+  const { postSampleEdit } = usePostSampleEdit();
+  const { postSampleChildCreate } = usePostSampleChildCreate();
 
   /**
    * 入力フォームを更新する
@@ -91,9 +89,8 @@ const SampleEditPage = () => {
       return;
     }
 
-    postEditSample({
+    postSampleEdit({
       data: form,
-      only: ['trn_sample_child_list'],
       handleSuccess: handleSuccess,
       handleError: handleError,
     });
@@ -139,7 +136,7 @@ const SampleEditPage = () => {
         trnSampleChildList={data.trnSampleChildList}
         errorList={data.errorList}
         handleFormChange={handleFormChange}
-        postCreateSampleChild={postCreateSampleChild}
+        postCreateSampleChild={postSampleChildCreate}
       />
     </PageBase>
   );

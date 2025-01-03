@@ -11,9 +11,9 @@ import SampleCommonForm, {
 import { useCallback, useState } from 'react';
 import { useErrorContext } from '@/scripts/Provider/ErrorProvider';
 import { useNavigate } from 'react-router-dom';
-import usePostCreateSample from '@/scripts/Hooks/Sample/usePostCreateSample';
-import usePostCreateSampleChild from '@/scripts/Hooks/Sample/usePostCreateSampleChild';
 import useFetchSampleCreateInitial from '@/scripts/Hooks/Sample/useFetchSampleCreateInitial';
+import usePostSampleCreate from '@/scripts/Hooks/Sample/usePostSampleCreate';
+import usePostSampleChildCreate from '@/scripts/Hooks/Sample/usePostSampleChildCreate';
 
 const SampleCreatePage = () => {
   const { data } = useFetchSampleCreateInitial(true);
@@ -25,10 +25,8 @@ const SampleCreatePage = () => {
     ...defaultFormValue,
   });
 
-  const { postCreateSample } = usePostCreateSample();
-  const { postCreateSampleChild } = usePostCreateSampleChild(
-    `/sample/create/child/create`,
-  );
+  const { postSampleCreate } = usePostSampleCreate();
+  const { postSampleChildCreate } = usePostSampleChildCreate();
 
   /**
    * 入力フォームを更新する
@@ -67,15 +65,14 @@ const SampleCreatePage = () => {
   /**
    * 親テーブルのデータを登録する
    */
-  const handlePost = useCallback((): void => {
+  const handlePost = useCallback(async (): Promise<void> => {
     const isConfirmed = confirm('親テーブルデータを保存しますか？');
     if (!isConfirmed) {
       return;
     }
 
-    postCreateSample({
+    await postSampleCreate({
       data: form,
-      only: [],
       handleSuccess: handleSuccess,
       handleError: handleError,
     });
@@ -118,7 +115,7 @@ const SampleCreatePage = () => {
         trnSampleChildList={data.trnSampleChildList}
         errorList={data.errorList}
         handleFormChange={handleFormChange}
-        postCreateSampleChild={postCreateSampleChild}
+        postCreateSampleChild={postSampleChildCreate}
       />
     </PageBase>
   );

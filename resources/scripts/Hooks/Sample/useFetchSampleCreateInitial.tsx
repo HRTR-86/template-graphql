@@ -35,7 +35,7 @@ const useFetchSampleCreateInitial = (
     loadingContext.handleStart();
 
     try {
-      const response = await axios.get(`/api/sample-create`, {
+      const response = await axios.get(`/api/sample/create`, {
         params: {},
         headers: {
           'Content-Type': 'application/json',

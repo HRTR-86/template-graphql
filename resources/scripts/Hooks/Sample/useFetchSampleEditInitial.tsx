@@ -40,7 +40,7 @@ const useFetchSampleEditInitial = (
     loadingContext.handleStart();
 
     try {
-      const response = await axios.get(`/api/sample-edit/${params.parentId}`, {
+      const response = await axios.get(`/api/sample/edit/${params.parentId}`, {
         params: {},
         headers: {
           'Content-Type': 'application/json',

@@ -1,12 +1,14 @@
 import PageBase from '@/scripts/Pages/PageBase';
-import { router } from '@inertiajs/react';
+import { useNavigate } from 'react-router-dom';
 
 const NotFoundPage = () => {
+  const navigate = useNavigate();
+
   /**
    * 戻るボタンをクリックした際にホームに戻る
    */
   const handleClickBack = (): void => {
-    router.visit('/home');
+    navigate('/home');
   };
 
   return (

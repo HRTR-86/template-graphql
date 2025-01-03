@@ -5,13 +5,13 @@ import { Errors } from '@inertiajs/core/types/types';
 import PageBase from '@/scripts/Pages/PageBase';
 import { parseErrorProps } from '@/scripts/Parser/Common/parseErrorProps';
 import ProfileForm, { Form } from '@/scripts/Pages/Profile/ProfileForm';
-import { router } from '@inertiajs/react';
 import { useAuthUserContext } from '@/scripts/Provider/AuthUserProvider';
 import { useCallback, useEffect, useState } from 'react';
 import { useErrorContext } from '@/scripts/Provider/ErrorProvider';
 import useFetchProfile from '@/scripts/Hooks/Profile/useFetchProfile';
+import { useNavigate } from 'react-router-dom';
 import { useSnackbarContext } from '@/scripts/Provider/SnackbarProvider';
-import usePostEditProfile from '@/scripts/Hooks/Profile/usePostEditProfile';
+import usePostProfileEdit from '@/scripts/Hooks/Profile/usePostProfileEdit';
 
 const HomePage = () => {
   const { data } = useFetchProfile(true);
@@ -19,6 +19,7 @@ const HomePage = () => {
   const authUserContext = useAuthUserContext();
   const snackbarContext = useSnackbarContext();
   const errorContext = useErrorContext();
+  const navigate = useNavigate();
 
   const [form, setForm] = useState<Form>({
     userName: authUserContext.authUser.name,
@@ -27,7 +28,7 @@ const HomePage = () => {
         ?.roleId ?? 0,
   });
 
-  const { postEditProfile } = usePostEditProfile();
+  const { postEditProfile } = usePostProfileEdit();
 
   useEffect(() => {
     if (!data.flash.message || !!snackbarContext.snackbar.message) {
@@ -62,15 +63,14 @@ const HomePage = () => {
   /**
    * プロフィールを編集する
    */
-  const handlePost = (): void => {
+  const handlePost = async (): Promise<void> => {
     const isConfirmed = confirm('プロフィールを保存しますか？');
     if (!isConfirmed) {
       return;
     }
 
-    postEditProfile({
+    await postEditProfile({
       data: form,
-      only: [],
       handleSuccess: () => {},
       handleError: handleError,
     });
@@ -80,7 +80,7 @@ const HomePage = () => {
    * ホーム画面に戻る
    */
   const handleClickBack = (): void => {
-    router.visit('/home');
+    navigate('/home');
   };
 
   return (

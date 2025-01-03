@@ -18,6 +18,6 @@ class NotFoundController extends Controller
      */
     public function __invoke(Request $request): Response|RedirectResponse
     {
-        return Inertia::render('NotFound/NotFoundIndex');
+        return Inertia::render('Index');
     }
 }

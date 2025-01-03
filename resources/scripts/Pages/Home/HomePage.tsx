@@ -11,12 +11,14 @@ import { useEffect } from 'react';
 import useFetchHome from '@/scripts/Hooks/Home/useFetchHome';
 import useFetchSampleStatusList from '@/scripts/Hooks/Mst/useFetchSampleStatusList';
 import { useSnackbarContext } from '@/scripts/Provider/SnackbarProvider';
+import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
   const { data } = useFetchHome(true);
 
   const authUserContext = useAuthUserContext();
   const snackbarContext = useSnackbarContext();
+  const navigate = useNavigate();
 
   const mstSampleStatus = useFetchSampleStatusList();
 
@@ -29,6 +31,10 @@ const HomePage = () => {
       message: data?.flash.message,
     });
   }, [data?.flash.message]);
+
+  const handleCreate = () => {
+    navigate('/sample/create');
+  };
 
   return (
     <PageBase sx={{ padding: '16px 30%' }}>
@@ -57,8 +63,8 @@ const HomePage = () => {
       >
         <FloatButton
           startIcon={<AddIcon />}
-          label="親テーブルデータを作成"
-          href={'/sample/create'}
+          label={'親テーブルデータを作成'}
+          onClick={handleCreate}
         />
       </Display>
     </PageBase>

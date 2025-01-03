@@ -17,6 +17,7 @@ import { useAuthUserContext } from '../../Provider/AuthUserProvider';
 import { useErrorContext } from '@/scripts/Provider/ErrorProvider';
 import usePostLogout from '@/scripts/Hooks/Login/usePostLogout';
 import { router } from '@inertiajs/react';
+import { useNavigate } from 'react-router-dom';
 
 const StyledImg = styled('img')({
   height: '36px',
@@ -33,6 +34,7 @@ const StyledMenuItem = styled(MenuItem)({
 const UserMenu = () => {
   const authUserContext = useAuthUserContext();
   const errorContext = useErrorContext();
+  const navigate = useNavigate();
   const theme = useTheme();
 
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
@@ -150,7 +152,7 @@ const UserMenu = () => {
         <Divider sx={{ margin: '0 16px' }} />
         <StyledMenuItem
           sx={{ padding: '8px 16px' }}
-          onClick={() => router.visit('/profile')}
+          onClick={() => navigate('/profile')}
         >
           <Typography>プロフィール</Typography>
         </StyledMenuItem>

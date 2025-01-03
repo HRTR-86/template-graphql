@@ -7,12 +7,12 @@ import { MstSampleStatusModel } from '@/scripts/Hooks/Mst/useFetchSampleStatusLi
 import { parseErrorProps } from '@/scripts/Parser/Common/parseErrorProps';
 import { Permission } from '@/scripts/Enum/Mst/Permission';
 import { PropsBase } from '@/scripts/Common/System';
-import { router } from '@inertiajs/react';
 import { TrnSampleParent } from '@/scripts/Parser/Home/parseHomeProps';
 import { useAuthUserContext } from '@/scripts/Provider/AuthUserProvider';
 import { useErrorContext } from '@/scripts/Provider/ErrorProvider';
 import { useMemo } from 'react';
-import usePostDeleteEvent from '@/scripts/Hooks/Sample/usePostDeleteSample';
+import usePostSampleDelete from '@/scripts/Hooks/Sample/usePostSampleDelete';
+import { useNavigate } from 'react-router-dom';
 
 interface Props extends PropsBase {
   trnSampleParent: TrnSampleParent;
@@ -22,14 +22,15 @@ interface Props extends PropsBase {
 const SampleParentCard = ({ trnSampleParent, mstSampleStatus }: Props) => {
   const authUserContext = useAuthUserContext();
   const errorContext = useErrorContext();
+  const navigate = useNavigate();
 
-  const { postDeleteEvent } = usePostDeleteEvent('/sample/detail/delete');
+  const { postSampleDelete } = usePostSampleDelete();
 
   /**
    * メニューの編集ボタンをクリック時に編集画面に遷移する
    */
   const handleClickEdit = (): void => {
-    router.visit(`/sample/edit/${trnSampleParent.id}`);
+    navigate(`/sample/edit/${trnSampleParent.id}`);
   };
 
   /**
@@ -44,10 +45,9 @@ const SampleParentCard = ({ trnSampleParent, mstSampleStatus }: Props) => {
   /**
    * メニューの編集ボタンをクリック時に削除を実行する
    */
-  const handleClickDelete = (): void => {
-    postDeleteEvent({
+  const handleClickDelete = async (): Promise<void> => {
+    await postSampleDelete({
       data: { parentId: trnSampleParent.id },
-      only: ['trn_sample_parent', 'flash'],
       handleSuccess: () => {},
       handleError: handleError,
     });

@@ -6,12 +6,12 @@ import Header from '@/scripts/Components/Header/Header';
 import Loading from '@/scripts/Components/Feedback/Loading';
 import Modal from '@/scripts/Components/Modal';
 import { PropsBase } from '@/scripts/Common/System';
-import { router } from '@inertiajs/react';
 import Snackbar from '@/scripts/Components/Feedback/Snackbar';
 import { useErrorContext } from '@/scripts/Provider/ErrorProvider';
 import { useLoadingContext } from '@/scripts/Provider/LoadingProvider';
 import { useMemo } from 'react';
 import { useSnackbarContext } from '@/scripts/Provider/SnackbarProvider';
+import { useNavigate } from 'react-router-dom';
 
 interface Props extends PropsBase {
   isDisplayHeader?: boolean;
@@ -29,6 +29,7 @@ const PageBase = ({
   const loadingContext = useLoadingContext();
   const snackbarContext = useSnackbarContext();
   const errorContext = useErrorContext();
+  const navigate = useNavigate();
 
   const isEmpty = emptyProps !== undefined;
 
@@ -58,7 +59,7 @@ const PageBase = ({
    * ホーム画面に戻る
    */
   const handleClickBack = (): void => {
-    router.visit('/home');
+    navigate('/home');
   };
 
   return (

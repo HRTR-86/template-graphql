@@ -3,8 +3,8 @@ import { format } from '@/scripts/Common/Datetime';
 import { getColor } from '@/scripts/Enum/Mst/SampleStatus';
 import { MstSampleStatusModel } from '@/scripts/Hooks/Mst/useFetchSampleStatusList';
 import { PropsBase } from '@/scripts/Common/System';
-import { router } from '@inertiajs/react';
 import { TrnSampleParent } from '@/scripts/Parser/Home/parseHomeProps';
+import { useNavigate } from 'react-router-dom';
 
 interface Props extends PropsBase {
   trnSampleParent: TrnSampleParent;
@@ -12,11 +12,13 @@ interface Props extends PropsBase {
 }
 
 const SampleParentCard = ({ trnSampleParent, mstSampleStatus }: Props) => {
+  const navigate = useNavigate();
+
   /**
    * カードをクリック時に親テーブルデータの詳細ページに遷移する
    */
   const handleClick = (): void => {
-    router.visit(`/sample/detail/${trnSampleParent.id}`);
+    navigate(`/sample/detail/${trnSampleParent.id}`);
   };
 
   const getStatusLabel = (statusId: number) => {
