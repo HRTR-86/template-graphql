@@ -21,6 +21,7 @@ class SignUpService
     {
         $authUser = $this->createUser($input);
         $this->createRole($authUser);
+        $this->updateAccessToken($authUser);
 
         Auth::login($authUser);
     }
@@ -59,5 +60,21 @@ class SignUpService
         $trnUserRole->is_current = true;
 
         $trnUserRole->saveOrFail();
+    }
+
+    /**
+     * ユーザーのアクセストークンを更新する
+     * @param AuthUser $authUser
+     * @return void
+     * @throws Throwable
+     */
+    private function updateAccessToken(AuthUser $authUser): void
+    {
+        $authUser->tokens()->delete();
+        $token = $authUser->createToken('api_token');
+
+        $authUser->access_token = $token;
+
+        $authUser->saveOrFail();
     }
 }

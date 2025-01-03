@@ -1,43 +1,50 @@
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { IndexProvider } from '@/scripts/Provider/IndexProvider';
-import { Route, Routes } from 'react-router-dom';
 import HomePage from '@/scripts/Pages/Home/HomePage';
+import NotFoundPage from '@/scripts/Pages/NotFound/NotFoundPage';
 import ProfilePage from '@/scripts/Pages/Profile/ProfilePage';
 import SampleCreatePage from '@/scripts/Pages/Sample/Create/SampleCreatePage';
 import SampleDetailPage from '@/scripts/Pages/Sample/Detail/SampleDetailPage';
 import SampleEditPage from '@/scripts/Pages/Sample/Edit/SampleEditPage';
-import NotFoundPage from '@/scripts/Pages/NotFound/NotFoundPage';
+import TopPage from '@/scripts/Pages/Top/TopPage';
 
-const Index = (props: any) => {
-  return (
-    <IndexProvider {...props}>
+const element = document.getElementById('index');
+const root = createRoot(element!);
+
+root.render(
+  <IndexProvider>
+    <BrowserRouter>
       <Routes>
         <Route
+          path={'/'}
+          element={<TopPage />}
+        />
+        <Route
           path={'/home'}
-          element={<HomePage {...props} />}
+          element={<HomePage />}
         />
         <Route
           path={'/sample/detail/:parentId'}
-          element={<SampleDetailPage {...props} />}
+          element={<SampleDetailPage />}
         />
         <Route
           path={'/sample/create'}
-          element={<SampleCreatePage {...props} />}
+          element={<SampleCreatePage />}
         />
         <Route
           path={'/sample/edit/:parentId'}
-          element={<SampleEditPage {...props} />}
+          element={<SampleEditPage />}
         />
         <Route
           path={'/profile'}
-          element={<ProfilePage {...props} />}
+          element={<ProfilePage />}
         />
         <Route
           path={'/not-found'}
-          element={<NotFoundPage {...props} />}
+          element={<NotFoundPage />}
         />
       </Routes>
-    </IndexProvider>
-  );
-};
-
-export default Index;
+    </BrowserRouter>
+  </IndexProvider>,
+);

@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 
+use App\Http\Controllers\Api\Auth\AuthUserController;
 use App\Http\Controllers\Api\Home\HomeController;
 use App\Http\Controllers\Api\Mst\RoleListController;
 use App\Http\Controllers\Api\Mst\SampleStatusListController;
@@ -24,6 +25,8 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::get('/auth/user', AuthUserController::class);
 
 Route::get('/home', HomeController::class)->middleware('auth:sanctum');
 

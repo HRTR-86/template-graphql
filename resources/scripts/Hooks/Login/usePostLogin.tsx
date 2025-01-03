@@ -1,8 +1,9 @@
+import axios, { isAxiosError } from 'axios';
 import { Errors, Page } from '@inertiajs/core/types/types';
 import { ErrorList } from '@/scripts/Common/System';
-import { router } from '@inertiajs/react';
 import { useLoadingContext } from '@/scripts/Provider/LoadingProvider';
 import { useState } from 'react';
+import { HttpStatusCode } from '@/scripts/Enum/HttpStatusCode';
 
 interface PostLoginData {
   email: string;
@@ -11,7 +12,6 @@ interface PostLoginData {
 
 export interface PostLoginParameter {
   data: PostLoginData;
-  only: string[];
   handleSuccess: (page: Page) => void;
   handleError: (errors: Errors) => void;
 }
@@ -21,35 +21,39 @@ const usePostLogin = () => {
 
   const [errors, setErrors] = useState<ErrorList>([] as never);
 
-  const postLogin = ({
+  const postLogin = async ({
     data,
-    only,
     handleSuccess,
     handleError,
-  }: PostLoginParameter): void => {
-    router.post(
-      '/login',
-      {
-        email: data.email,
-        password: data.password,
-      },
-      {
-        only: only,
-        onStart: () => {
-          setErrors([] as never);
-          loadingContext.handleStart();
+  }: PostLoginParameter): Promise<void> => {
+    loadingContext.handleStart();
+
+    try {
+      const response = await axios.post(
+        '/login',
+        {
+          email: data.email,
+          password: data.password,
         },
-        onFinish: loadingContext.handleFinish,
-        onSuccess: (page: Page) => handleSuccess(page),
-        onError: (errors: Errors) => {
-          if (Object.prototype.hasOwnProperty.call(errors, 'error')) {
-            handleError(errors);
-          } else {
-            setErrors(errors as never);
-          }
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
         },
-      },
-    );
+      );
+      handleSuccess(response.data);
+    } catch (e) {
+      if (isAxiosError(e)) {
+        if (e.status === HttpStatusCode.HTTP_UNPROCESSABLE_ENTITY) {
+          setErrors(e?.response?.data.errors ?? []);
+        } else {
+          // TODO: その他のエラー処理を追加する
+        }
+      }
+      console.log(e);
+    }
+
+    loadingContext.handleFinish();
   };
 
   return { postLogin, errors };

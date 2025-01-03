@@ -1,20 +1,29 @@
-import { Errors } from '@inertiajs/core/types/types';
-import { router } from '@inertiajs/react';
+import axios from 'axios';
 import { useLoadingContext } from '@/scripts/Provider/LoadingProvider';
 
 const usePostLogout = () => {
   const loadingContext = useLoadingContext();
 
-  const postLogout = (handleError: (errors: any) => void): void => {
-    router.post(
-      '/logout',
-      {},
-      {
-        onStart: loadingContext.handleStart,
-        onFinish: loadingContext.handleFinish,
-        onError: (errors: Errors) => handleError(errors),
-      },
-    );
+  const postLogout = async (
+    handleError: (errors: any) => void,
+  ): Promise<void> => {
+    loadingContext.handleStart();
+
+    try {
+      const response = await axios.post(
+        '/logout',
+        {},
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+    } catch (error) {
+      console.log(error);
+    }
+
+    loadingContext.handleFinish();
   };
 
   return { postLogout };

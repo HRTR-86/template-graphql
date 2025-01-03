@@ -2,12 +2,14 @@
 
 namespace App\Service\Login;
 
+use App\Models\Auth\AuthUser;
 use App\Repositories\Auth\AuthUserRepository;
 use App\Usecases\Login\LoginInput;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Throwable;
 
 class LoginService
 {
@@ -16,6 +18,7 @@ class LoginService
      * @param LoginInput $input
      * @return void
      * @throws Exception
+     * @throws Throwable
      */
     public function handle(LoginInput $input): void
     {
@@ -33,6 +36,24 @@ class LoginService
             ]);
         }
 
+        $this->updateAccessToken($authUser);
+
         Auth::login($authUser);
+    }
+
+    /**
+     * ユーザーのアクセストークンを更新する
+     * @param AuthUser $authUser
+     * @return void
+     * @throws Throwable
+     */
+    private function updateAccessToken(AuthUser $authUser): void
+    {
+        $authUser->tokens()->delete();
+        $token = $authUser->createToken('api_token');
+
+        $authUser->access_token = $token;
+
+        $authUser->saveOrFail();
     }
 }

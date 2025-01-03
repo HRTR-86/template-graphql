@@ -9,7 +9,11 @@
         <title>テンプレート</title>
 
         @viteReactRefresh
-        @vite('resources/scripts/Index.tsx')
+        @if($isAuthed)
+            @vite('resources/scripts/IndexAuthed.tsx')
+        @else
+            @vite('resources/scripts/Index.tsx')
+        @endif
     </head>
     <body class="antialiased">
         <div id="index"></div>

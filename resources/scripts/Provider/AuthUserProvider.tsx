@@ -1,8 +1,6 @@
-import {
-  AuthUser,
-  parseAuthUserProps,
-} from '@/scripts/Parser/Common/parseAuthUserProps';
+import { AuthUser } from '@/scripts/Parser/Common/parseAuthUserProps';
 import { createContext, useContext } from 'react';
+import useFetchAuthUser from '@/scripts/Hooks/Auth/useFetchAuthUser';
 import { TPermission } from '@/scripts/Enum/Mst/Permission';
 
 interface AuthUserContext {
@@ -24,15 +22,19 @@ const AuthUserContext = createContext<AuthUserContext>({
 });
 
 export const AuthUserProvider = (props: any) => {
-  const { authUser, permissionList } = parseAuthUserProps(props);
+  const { data } = useFetchAuthUser(true);
 
   const hasPermission = (permission: TPermission): boolean => {
-    return permissionList.includes(permission as number);
+    return data.permissionList.includes(permission as number);
   };
 
   return (
     <AuthUserContext.Provider
-      value={{ authUser, permissionList, hasPermission }}
+      value={{
+        authUser: data.authUser,
+        permissionList: data.permissionList,
+        hasPermission,
+      }}
     >
       {props.children}
     </AuthUserContext.Provider>

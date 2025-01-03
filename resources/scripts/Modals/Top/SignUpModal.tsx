@@ -51,11 +51,12 @@ const SignUpModal = (_: Props) => {
   /**
    * 新規登録用データを送信する
    */
-  const handlePost = (): void => {
-    postSignUp({
+  const handlePost = async (): Promise<void> => {
+    await postSignUp({
       data: form,
-      only: [],
-      handleSuccess: () => {},
+      handleSuccess: () => {
+        location.replace('/home');
+      },
       handleError: handleError,
     });
   };

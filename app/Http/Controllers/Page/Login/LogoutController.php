@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Page\Login;
 
-use App\Enums\Common\ErrorCode;
 use App\Http\Controllers\Controller;
-use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,15 +14,8 @@ class LogoutController extends Controller
      */
     public function __invoke(): RedirectResponse
     {
-        try {
-            Auth::logout();
+        Auth::logout();
 
-            return redirect()->route('top');
-
-        } catch (Exception $e) {
-            return back()->withErrors(
-                $this->getError(ErrorCode::LO9905, $e)
-            );
-        }
+        return redirect('/');
     }
 }

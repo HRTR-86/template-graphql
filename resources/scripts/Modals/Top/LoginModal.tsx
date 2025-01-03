@@ -49,11 +49,12 @@ const LoginModal = (_: Props) => {
   /**
    * ログイン情報を送信する
    */
-  const handlePost = (): void => {
-    postLogin({
+  const handlePost = async (): Promise<void> => {
+    await postLogin({
       data: form,
-      only: [],
-      handleSuccess: () => {},
+      handleSuccess: () => {
+        location.replace('/home');
+      },
       handleError: handleError,
     });
   };
