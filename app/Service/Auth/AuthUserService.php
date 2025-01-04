@@ -29,11 +29,11 @@ class AuthUserService
         $authUser = Auth::user();
 
         return [
-            'id'           => $authUser->id ?? 0,
-            'name'         => $authUser->name ?? '',
-            'email'        => $authUser->email ?? '',
+            'id'           => $authUser?->id ?? 0,
+            'name'         => $authUser?->name ?? '',
+            'email'        => $authUser?->email ?? '',
             'image_url'    => $this->getImageUrl($authUser),
-            'access_token' => $authUser->access_token ?? '',
+            'access_token' => $authUser?->access_token ?? '',
         ];
     }
 

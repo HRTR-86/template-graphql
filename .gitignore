@@ -6,6 +6,7 @@
 /vendor
 _ide_helper.php
 _ide_helper_models.php
+_lighthouse_ide_helper.php
 .env
 .env.backup
 .env.production
@@ -22,6 +23,8 @@ yarn-error.log
 .DS_Store
 /redis_volumes/
 /minio_volumes/
+programmatic-types.graphql
+schema-directives.graphql
 
 #  Local .terraform directories
 **/.terraform/*

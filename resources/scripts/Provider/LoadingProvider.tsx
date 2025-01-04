@@ -4,12 +4,14 @@ interface LoadingContext {
   isLoading: boolean;
   handleStart: () => void;
   handleFinish: () => void;
+  handleChange: (isLoading: boolean) => void;
 }
 
 const LoadingContext = createContext<LoadingContext>({
   isLoading: false,
   handleStart: () => {},
   handleFinish: () => {},
+  handleChange: () => {},
 });
 
 export const LoadingProvider = (props: any) => {
@@ -23,8 +25,14 @@ export const LoadingProvider = (props: any) => {
     setIsLoading(false);
   };
 
+  const handleChange = (isLoading: boolean): void => {
+    setIsLoading(isLoading);
+  };
+
   return (
-    <LoadingContext.Provider value={{ isLoading, handleStart, handleFinish }}>
+    <LoadingContext.Provider
+      value={{ isLoading, handleStart, handleFinish, handleChange }}
+    >
       {props.children}
     </LoadingContext.Provider>
   );

@@ -9,10 +9,12 @@
         "guzzlehttp/guzzle": "^7.2",
         "inertiajs/inertia-laravel": "^1.0",
         "laravel/framework": "^11.0",
-        "league/flysystem-aws-s3-v3": "^3.29",
         "laravel/sanctum": "^4.0",
         "laravel/socialite": "^5.15",
-        "laravel/tinker": "^2.7"
+        "laravel/tinker": "^2.7",
+        "league/flysystem-aws-s3-v3": "^3.29",
+        "mll-lab/laravel-graphql-playground": "^1.1",
+        "nuwave/lighthouse": "^6.47"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.0",

@@ -1,0 +1,16 @@
+extend type Query {
+    authUser: AuthUserResponse
+    @field(resolver: "App\\GraphQL\\Queries\\Auth\\AuthUserQuery")
+}
+
+type AuthUserResponse {
+    auth_user: AuthUser
+    permission_list: [Int]
+}
+
+type AuthUser {
+    id: ID
+    name: String
+    email: String
+    image_url: String
+}
