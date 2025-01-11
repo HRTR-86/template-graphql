@@ -1,3 +1,5 @@
+import { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import BasicButton from '@/scripts/Components/Button/BasicButton';
 import { Box, Stack, Typography } from '@mui/material';
 import { ButtonType } from '@/scripts/Enum/ButtonType';
@@ -6,15 +8,13 @@ import PageBase from '@/scripts/Pages/PageBase';
 import { parseErrorProps } from '@/scripts/Parser/Common/parseErrorProps';
 import ProfileForm, { Form } from '@/scripts/Pages/Profile/ProfileForm';
 import { useAuthUserContext } from '@/scripts/Provider/AuthUserProvider';
-import { useCallback, useEffect, useState } from 'react';
 import { useErrorContext } from '@/scripts/Provider/ErrorProvider';
-import useFetchProfile from '@/scripts/Hooks/Profile/useFetchProfile';
-import { useNavigate } from 'react-router-dom';
 import { useSnackbarContext } from '@/scripts/Provider/SnackbarProvider';
 import usePostProfileEdit from '@/scripts/Hooks/Profile/usePostProfileEdit';
+import { useQueryProfile } from '@/scripts/Hooks/Query/Profile/useQueryProfile';
 
 const HomePage = () => {
-  const { data } = useFetchProfile(true);
+  const { data } = useQueryProfile();
 
   const authUserContext = useAuthUserContext();
   const snackbarContext = useSnackbarContext();

@@ -1,0 +1,13 @@
+extend type Query {
+    profile: ProfileResponse
+    @field(resolver: "App\\GraphQL\\Queries\\Profile\\ProfileQuery")
+}
+
+type ProfileResponse {
+    trn_user_role_list: [TrnUserRole]
+}
+
+type TrnUserRole {
+    role_id: Int
+    is_current: Int
+}

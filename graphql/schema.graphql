@@ -5,3 +5,4 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 type Query
 
 #import ./Queries/Auth/AuthUserQuery.graphql
+#import ./Queries/Profile/ProfileQuery.graphql
