@@ -6,3 +6,5 @@ type Query
 
 #import ./Queries/Auth/AuthUserQuery.graphql
 #import ./Queries/Profile/ProfileQuery.graphql
+
+#import ./Mutations/Profile/ProfileEditMutation.graphql

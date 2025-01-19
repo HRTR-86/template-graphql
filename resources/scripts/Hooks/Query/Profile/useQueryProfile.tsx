@@ -32,7 +32,6 @@ export const useQueryProfile = (): ProfileResponse => {
   useEffect(() => {
     loadingContext.handleChange(loading);
   }, [loading]);
-  console.log(data);
 
   return {
     data: parseProfileProps(data?.profile),

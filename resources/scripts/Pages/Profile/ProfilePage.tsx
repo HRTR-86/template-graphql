@@ -9,26 +9,26 @@ import { parseErrorProps } from '@/scripts/Parser/Common/parseErrorProps';
 import ProfileForm, { Form } from '@/scripts/Pages/Profile/ProfileForm';
 import { useAuthUserContext } from '@/scripts/Provider/AuthUserProvider';
 import { useErrorContext } from '@/scripts/Provider/ErrorProvider';
+import { useMutationProfileEdit } from '@/scripts/Hooks/Mutation/Profile/useMutationProfileEdit';
 import { useSnackbarContext } from '@/scripts/Provider/SnackbarProvider';
-import usePostProfileEdit from '@/scripts/Hooks/Profile/usePostProfileEdit';
 import { useQueryProfile } from '@/scripts/Hooks/Query/Profile/useQueryProfile';
 
 const HomePage = () => {
-  const { data } = useQueryProfile();
-
   const authUserContext = useAuthUserContext();
   const snackbarContext = useSnackbarContext();
   const errorContext = useErrorContext();
   const navigate = useNavigate();
 
+  const { data } = useQueryProfile();
+  const { profileEdit } = useMutationProfileEdit();
+
+  // TODO: 初期値が設定されないので修正する
   const [form, setForm] = useState<Form>({
     userName: authUserContext.authUser.name,
     roleId:
       data.trnUserRoleList.find((trnUserRole) => trnUserRole.isCurrent)
         ?.roleId ?? 0,
   });
-
-  const { postEditProfile } = usePostProfileEdit();
 
   useEffect(() => {
     if (!data.flash.message || !!snackbarContext.snackbar.message) {
@@ -69,11 +69,13 @@ const HomePage = () => {
       return;
     }
 
-    await postEditProfile({
-      data: form,
-      handleSuccess: () => {},
-      handleError: handleError,
+    profileEdit({
+      variables: {
+        user_name: form.userName,
+        role_id: form.roleId,
+      },
     });
+    // TODO: 再取得処理を実装する
   };
 
   /**

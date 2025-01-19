@@ -1,0 +1,11 @@
+extend type Mutation {
+    profileEdit(
+        user_name: String
+        role_id: Int
+    ): ProfileEditResponse
+    @field(resolver: "App\\GraphQL\\Mutations\\Profile\\ProfileEditMutation")
+}
+
+type ProfileEditResponse {
+    status: Int
+}
