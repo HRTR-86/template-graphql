@@ -53,3 +53,4 @@ services:
         - ./minio_volumes:/minio/data
     command: server --address ":9010" --console-address ":9011" /minio/data
     platform: linux/x86_64
+    # TODO:: 環境構築時にバケットが生成されるようにする
