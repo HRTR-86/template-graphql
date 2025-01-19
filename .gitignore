@@ -19,22 +19,13 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-/db
 .DS_Store
+
+# Docker volume
+/db
 /redis_volumes/
 /minio_volumes/
+
+# GraphQL
 programmatic-types.graphql
 schema-directives.graphql
-
-#  Local .terraform directories
-**/.terraform/*
-
-# .tfstate files
-*.tfstate
-*.tfstate.*
-
-# .tfvars files
-*.tfvars
-
-# sessionmanager-plugin files
-/sessionmanager-bundle/
