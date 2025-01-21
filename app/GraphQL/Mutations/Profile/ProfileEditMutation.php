@@ -18,10 +18,12 @@ readonly class ProfileEditMutation
     ) {}
 
     /**
+     * @param $_
+     * @param array $args
      * @return array
      * @throws Exception
      */
-    public function __invoke($_, $args): array
+    public function __invoke($_, array $args): array
     {
         if (! Auth::check()) {
             throw new Exception('未認証のためアクセスできません');

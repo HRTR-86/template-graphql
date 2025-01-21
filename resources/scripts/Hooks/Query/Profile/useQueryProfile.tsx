@@ -24,7 +24,13 @@ interface ProfileResponse {
   error?: ApolloError;
 }
 
-export const useQueryProfile = (): ProfileResponse => {
+export const useQueryProfile = ({
+  callback,
+}: {
+  callback?: {
+    onSuccess?: (data: OutputProfileProps) => void;
+  };
+}): ProfileResponse => {
   const loadingContext = useLoadingContext();
 
   const { data, loading, error } = useQuery(PROFILE);
@@ -32,6 +38,12 @@ export const useQueryProfile = (): ProfileResponse => {
   useEffect(() => {
     loadingContext.handleChange(loading);
   }, [loading]);
+
+  useEffect(() => {
+    if (callback?.onSuccess) {
+      callback.onSuccess(parseProfileProps(data?.profile));
+    }
+  }, [data]);
 
   return {
     data: parseProfileProps(data?.profile),

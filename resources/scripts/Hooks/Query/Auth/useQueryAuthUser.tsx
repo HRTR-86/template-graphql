@@ -7,7 +7,7 @@ import {
 } from '@/scripts/Parser/Common/parseAuthUserProps';
 import type { ApolloError } from '@apollo/client/errors';
 
-const AUTH_USER = gql`
+export const AUTH_USER = gql`
   query {
     authUser {
       auth_user {

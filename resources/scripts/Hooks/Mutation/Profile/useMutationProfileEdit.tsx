@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { gql, useMutation } from '@apollo/client';
+import { DocumentNode, gql, useMutation } from '@apollo/client';
 import { useLoadingContext } from '@/scripts/Provider/LoadingProvider';
 
 const PROFILE_EDIT = gql`
@@ -23,10 +23,16 @@ interface ProfileEditResponse {
   }) => void;
 }
 
-export const useMutationProfileEdit = (): ProfileEditResponse => {
+export const useMutationProfileEdit = ({
+  refetchQueries = [],
+}: {
+  refetchQueries?: DocumentNode[];
+}): ProfileEditResponse => {
   const loadingContext = useLoadingContext();
 
-  const [profileEdit, { loading }] = useMutation(PROFILE_EDIT);
+  const [profileEdit, { loading }] = useMutation(PROFILE_EDIT, {
+    refetchQueries: [...refetchQueries],
+  });
 
   useEffect(() => {
     loadingContext.handleChange(loading);

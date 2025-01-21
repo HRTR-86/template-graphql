@@ -12,6 +12,7 @@ import { useErrorContext } from '@/scripts/Provider/ErrorProvider';
 import { useMutationProfileEdit } from '@/scripts/Hooks/Mutation/Profile/useMutationProfileEdit';
 import { useSnackbarContext } from '@/scripts/Provider/SnackbarProvider';
 import { useQueryProfile } from '@/scripts/Hooks/Query/Profile/useQueryProfile';
+import { AUTH_USER } from '@/scripts/Hooks/Query/Auth/useQueryAuthUser';
 
 const HomePage = () => {
   const authUserContext = useAuthUserContext();
@@ -19,15 +20,26 @@ const HomePage = () => {
   const errorContext = useErrorContext();
   const navigate = useNavigate();
 
-  const { data } = useQueryProfile();
-  const { profileEdit } = useMutationProfileEdit();
+  const { data } = useQueryProfile({
+    callback: {
+      onSuccess: (data) => {
+        setForm((currentValues) => ({
+          ...currentValues,
+          roleId:
+            data.trnUserRoleList.find((trnUserRole) => {
+              return trnUserRole.isCurrent;
+            })?.roleId ?? 0,
+        }));
+      },
+    },
+  });
+  const { profileEdit } = useMutationProfileEdit({
+    refetchQueries: [AUTH_USER],
+  });
 
-  // TODO: 初期値が設定されないので修正する
   const [form, setForm] = useState<Form>({
     userName: authUserContext.authUser.name,
-    roleId:
-      data.trnUserRoleList.find((trnUserRole) => trnUserRole.isCurrent)
-        ?.roleId ?? 0,
+    roleId: 0,
   });
 
   useEffect(() => {
@@ -39,6 +51,13 @@ const HomePage = () => {
       message: data.flash.message,
     });
   }, [data.flash.message]);
+
+  useEffect(() => {
+    setForm((currentValues) => ({
+      ...currentValues,
+      userName: authUserContext.authUser.name,
+    }));
+  }, [authUserContext.authUser.name]);
 
   /**
    * 入力フォームを更新する
